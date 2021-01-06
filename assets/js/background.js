@@ -1,5 +1,5 @@
 class Background {
-    constructor(ctx, mapr,place) {
+    constructor(ctx, mapr, place) {
         this.ctx = ctx
 
         // this.exterior = false;
@@ -18,6 +18,7 @@ class Background {
         // this.portalMision = true;
 
         this.sy = 0;
+        this.sxBack = 0;
 
         this.spriteBackground = new Image()
         this.spriteBackground.src = './assets/img/ook.png';
@@ -49,12 +50,39 @@ class Background {
             // this.width = this.spriteBackground.frameWidth
             // this.height = this.spriteBackground.frameHeight
         }
-
-
+        this.spriteFire = new Image();
+        this.spriteFire.src = './assets/img/fire.png';
+        this.spriteFire.isReady = false;
+        this.spriteFire.horizontalFrames = 38;
+        this.spriteFire.verticalFrames = 4;
+        this.spriteFire.horizontalFrameIndex = 0
+        this.spriteFire.verticalFrameIndex = 0
+        this.spriteFire.drawCount = 0
+        this.spriteFire.onload = () => {
+            this.spriteFire.isReady = true
+            this.spriteFire.frameWidth = 71;
+            this.spriteFire.frameHeight = 104
+        }
+        this.spriteFireB = new Image();
+        this.spriteFireB.src = './assets/img/fireB.png';
+        this.spriteFireB.isReady = false;
+        this.spriteFireB.horizontalFrames = 38;
+        this.spriteFireB.verticalFrames = 4;
+        this.spriteFireB.horizontalFrameIndex = 0
+        this.spriteFireB.verticalFrameIndex = 0
+        this.spriteFireB.drawCount = 0
+        this.spriteFireB.onload = () => {
+            this.spriteFireB.isReady = true
+            this.spriteFireB.frameWidth = 140;
+            this.spriteFireB.frameHeight = 190;
+        }
     }
 
     isReady() {
-        if (this.spriteBackground.isReady && this.spritePortal.isReady) {
+        if (this.spriteBackground.isReady &&
+            this.spritePortal.isReady &&
+            this.spriteFire.isReady &&
+            this.spriteFireB.isReady) {
             return true
         }
     }
@@ -64,10 +92,26 @@ class Background {
         return this.map.layers[layer][row * this.map.cols + col];
     }
 
-    renderingMap(layer, sx,portal) {
+    renderingMap(layer, sx, portal, place) {
+        // if (place && timeSeg === 10 && timeFps === 0|| place && timeSeg === 20 && timeFps === 0 ) {
+        //     console.log('esta dentrooooooooadfljalsdjljlas')
+        //     let r = getRandomInt(0, mapDungeon.cols * mapDungeon.rows - 1)
+        //     let rf = getRandomInt(1, 4)
+        //     if (rf === 1) {
+        //         this.map.layers[1][r] = 61
+        //     } else if (rf === 2) {
+        //         this.map.layers[1][r] = 71;
+        //     } else {
+        //         this.map.layers[1][r] = 62
+        //     }
+        // }
+        if (sx === 0) {
+            this.sxBack++
+        }
+        if (this.sxBack > 19) {
+            this.sxBack = 0;
+        }
         if (this.isReady()) {
-
-
             let startCol = Math.floor((cameraX / mpTsizeWidth));
             let endCol = startCol + (cameraWidth / mpTsizeWidth);
             let startRow = Math.floor(cameraY / mpTsizeHeight);
@@ -105,7 +149,38 @@ class Background {
                             mpTsizeHeight //this.height //  target height // dHeight El alto para dibujar la imagen en el canvas destino. Esto permite escalar la imagen dibujada. Si no se especifica, el alto de  la imagen no se escala al dibujar.
                         );
                     }
-                    if (this.tile > 50 && this.tile < 90 &&
+                    if (this.tile > 60 && this.tile <= 70) {
+                        this.tile = this.tile - 60;
+
+                        // console.log(this.spriteFire.frameWidth)
+                        this.ctx.drawImage(
+                            this.spriteFire,
+                            this.sxBack * this.spriteFire.frameWidth,
+                            (this.tile - 1) * this.spriteFire.frameHeight,
+                            this.spriteFire.frameWidth, //this.spriteBackground.frameWidth, //  map.tsize, // source width  // sWidth El ancho del sub-rectangulo de la imagen origen a dibujar en el contexto de destino. Si no se especifica, se utiliza todo el rectangulo entero desde las coordenadas especificadas por sx y sy hasta la esquina inferior derecha de la imagen.                               
+                            this.spriteFire.frameHeight, // this.spriteBackground.frameHeight, // source height //sHeight  La altura del sub-rectangulo de la imagen origen a dibujar en el contexto de destino.                             
+                            x, // target x  // dx La coordenada X del canvas destino en la cual se coloca la esquina superior izquierda de la imagen origen.                               
+                            y, // target y  // dy La coordenada Y del canvas destino en la cual se coloca la esquina superior izquierda de la imagen origen.
+                            this.spriteFire.frameWidth, //this.width,  // target width // dWidth El ancho para dibujar la imagen en el canvas destino.
+                            this.spriteFire.frameHeight //this.height //  target height // dHeight El alto para dibujar la imagen en el canvas destino. Esto permite escalar la imagen dibujada. Si no se especifica, el alto de  la imagen no se escala al dibujar.
+                        );
+                    } else if (this.tile > 70 && this.tile <= 80) {
+                        this.tile = this.tile - 70;
+                        this.ctx.drawImage(
+                            this.spriteFireB,
+                            this.sxBack * this.spriteFireB.frameWidth,
+                            (this.tile - 1) * this.spriteFireB.frameHeight,
+                            this.spriteFireB.frameWidth, //this.spriteBackground.frameWidth, //  map.tsize, // source width  // sWidth El ancho del sub-rectangulo de la imagen origen a dibujar en el contexto de destino. Si no se especifica, se utiliza todo el rectangulo entero desde las coordenadas especificadas por sx y sy hasta la esquina inferior derecha de la imagen.                               
+                            this.spriteFireB.frameHeight, // this.spriteBackground.frameHeight, // source height //sHeight  La altura del sub-rectangulo de la imagen origen a dibujar en el contexto de destino.                             
+                            x, // target x  // dx La coordenada X del canvas destino en la cual se coloca la esquina superior izquierda de la imagen origen.                               
+                            y, // target y  // dy La coordenada Y del canvas destino en la cual se coloca la esquina superior izquierda de la imagen origen.
+                            this.spriteFireB.frameWidth, //this.width,  // target width // dWidth El ancho para dibujar la imagen en el canvas destino.
+                            this.spriteFireB.frameHeight //this.height //  target height // dHeight El alto para dibujar la imagen en el canvas destino. Esto permite escalar la imagen dibujada. Si no se especifica, el alto de  la imagen no se escala al dibujar.
+                        );
+
+                    }
+
+                    if (this.tile > 50 && this.tile < 60 &&
                         !this.update) {
 
                         // this.radar = true;
@@ -152,6 +227,9 @@ class Background {
     }
 
     tileSy() {
+        if (this.tile === 66) {
+
+        }
         if (this.place === 'casa') {
             if (this.tile < 10) {
                 this.sy = 9
@@ -162,10 +240,13 @@ class Background {
                 this.sy = 7;
                 this.tile = this.tile - 20;
             } else if (this.tile > 30 && this.tile <= 40) {
+                if (this.tile >= 32){
+                    this.tile = 32
+                }
                 this.sy = 6;
                 this.tile = this.tile - 30;
             } else if (this.tile > 40 && this.tile <= 50) {
-                this.sy = 5;
+                this.sy = 6;
                 this.tile = this.tile - 40;
             }
         } else if (this.place === 'dungeon') {
@@ -231,8 +312,8 @@ class Background {
                 enemyUpdate[index][i].y = Math.round(yCartesian) - cameraHeight / 2;
                 enemyUpdate[index][i].timeEn = timeEn
             }
-            
-            
+
+
             if (enemyUpdate[index][i].type === 'mefisto') { //##########pone llave la llave
                 let ran = getRandomInt(1, 3)
                 if (ran === 1) {}

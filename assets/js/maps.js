@@ -21,7 +21,7 @@ let mapDungeon = {
 
 let arrCover = [];
 
-function createMap(cols, rows) {
+function createMap(cols, rows, finalBoss) {
     mapRandon.cols = cols;
     mapRandon.rows = rows;
     mapRandon.tsize = mapTsize;
@@ -32,7 +32,7 @@ function createMap(cols, rows) {
     enemyMap(cols, rows);
     collideMap(cols, rows)
     coverMap(cols, rows)
-    mapDunFun();
+    mapDunFun(finalBoss);
 
 
     // console.log('layer 0: ' + mapRandon.layers[0])
@@ -77,7 +77,16 @@ function collideMap(cols, rows) {
         let randomy = getRandomInt(cols * 2, cols * rows - 1);
         let randomx = getRandomInt(cols * 2, cols * rows - 1);
         let randomt = getRandomInt(cols * 2, cols * rows - 1);
+        let randomf = getRandomInt(cols * 2, cols * rows - 1);
+        let r = getRandomInt(1, 4);
         let ranSprite = getRandomInt(1, 8);
+        if (r === 1){
+            mapColli[randomf] = 61;  
+        } else if ( r === 2){
+            mapColli[randomf] = 62;
+        } else {
+            mapColli[randomf] = 71;  
+        }
         mapColli[randomy] = 20 + ranSprite;
         mapColli[randomx] = 26; // pone arboles grandes
         mapColli[randomt] = 24; // pone arboles pequeños
@@ -299,9 +308,10 @@ function enemyMap(cols, rows) {
     for (let i = 0; i < numEnemy; i++) { // pone enemigos 
         ran = getRandomInt(1, cols * rows);
         ran2 = getRandomInt(1, 3);
-        if (i === 0) {
-            arrEnemy[ran] = 55;
-        } else if (i === 1 || i === 2 || i === 3 || i === 4) { // numero del enemigo a crear ###########################################################
+        // if (i === 0) {
+        //     arrEnemy[ran] = 55;
+        // } else 
+        if (i === 1 || i === 2 || i === 3 || i === 4) { // numero del enemigo a crear ###########################################################
             if (ran2 === 1) {
                 arrEnemy[ran] = 53
             } else {
@@ -374,21 +384,84 @@ function baseMap(cols, rows) {
 }
 
 
-function mapDunFun() {
-    let maxCol = 32;
+function mapDunFun(finalBoss) {
+    let maxCol = 52;
     let colRow = getRandomInt(13, maxCol) // tamaño mazmorra
     mapDungeon.cols = colRow;
     mapDungeon.rows = colRow;
+    let ran1 = getRandomInt(1, colRow * colRow)
+    let ran2 = getRandomInt(1, colRow * colRow)
+    let ran3 = getRandomInt(1, colRow * colRow)
     let randO = getRandomInt(1, colRow * colRow)
     let ran = getRandomInt(4, 7) + 30;
-    for (let x = 0; x < colRow * colRow-1; x++) {
+    for (let x = 0; x < colRow * colRow - 1; x++) {
         mapDungeon.layers[0].push(ran);
         mapDungeon.layers[1].push(0);
         mapDungeon.layers[2].push(0);
     }
-    mapDungeon.layers[1][randO]= 55;
+    mapDungeon.layers[1][ran1] = 52
+    mapDungeon.layers[1][ran3] = 52
+    mapDungeon.layers[1][ran2] = 54
+    if (!finalBoss) {
+        mapDungeon.layers[1][randO] = 55;
+    } else {
+        mapDungeon.layers[1][randO] = 56;
+    }
 
 }
+
+// let mapHome1 = {
+//     cols: 13,
+//     rows: 13,
+//     tsize: mapTsize,
+//     layers: [
+//         [
+//             32, 1, 5, 4, 32, 31, 32, 5, 1, 20, 1, 1, 1,
+//             32, 3, 1, 2, 32, 32, 32, 3, 1, 1, 1, 1, 1,
+//             32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 13,
+//             32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 17,
+//             32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 17,
+//             32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 8,
+//             32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32,
+//             12, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 31,
+//             18, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32,
+//             32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 13,
+//             31, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 17,
+//             32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 17,
+//             11, 11, 11, 12, 32, 31, 32, 13, 11, 11, 11, 11, 14
+//         ],
+//         [
+//             0, 0, 0, 0, 0, 91, 0, 0, 0, 0, 0, 0, 0,
+//             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+//             0, 0, 0, 0, 0, 0, 0, 0, 0, 49, 50, 0, 0,
+//             0, 0, 0, 0, 0, 0, 0, 61, 0, 0, 0, 0, 0,
+//             0, 0, 62, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+//             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+//             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+//             0, 0, 0, 0, 62, 0, 0, 0, 71, 0, 0, 0, 91,
+//             0, 0, 0, 0, 0, 0, 0, 0, 72, 0, 0, 0, 0,
+//             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+//             91, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+//             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+//             0, 0, 0, 0, 0, 91, 0, 0, 0, 0, 0, 0, 0
+//         ],
+//         [ // Enemy Map
+//             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+//             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+//             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+//             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+//             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+//             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+//             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+//             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+//             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+//             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+//             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+//             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+//             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+//         ]
+//     ]
+// }
 
 let mapHouse = {
     cols: 13,
@@ -396,7 +469,7 @@ let mapHouse = {
     tsize: mapTsize,
     layers: [
         [
-            32, 1, 5, 4, 32, 31, 32, 5, 1, 1, 1, 1, 1,
+            32, 1, 5, 4, 32, 31, 32, 5, 1, 20, 1, 1, 1,
             32, 3, 1, 2, 32, 32, 32, 3, 1, 1, 1, 1, 1,
             32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 13,
             32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 17,
@@ -413,13 +486,13 @@ let mapHouse = {
         [
             0, 0, 0, 0, 0, 91, 0, 0, 0, 0, 0, 0, 0,
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 49, 50, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 61, 0, 0, 0, 0, 0,
+            0, 0, 62, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 91,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 62, 0, 0, 0, 71, 0, 0, 0, 91,
+            0, 0, 0, 0, 0, 0, 0, 0, 72, 0, 0, 0, 0,
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
             91, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,

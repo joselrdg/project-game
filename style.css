@@ -1,8 +1,22 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Rock+Salt&display=swap');
+/* Rock Salt */
+@import url('https://fonts.googleapis.com/css2?family=Hanalei+Fill&display=swap');
+/* Hanalei Fill */
+@import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
+/* Anton */
+
+
 body {
+
+    background-image: url("assets/img/a.png");
+    background-size: 200px;
+    background-repeat: repeat;
     background-color: black;
 }
 
 canvas {
+    font-family: Rock Salt;
     border: 1px solid red;
     padding: 0;
     margin: auto;

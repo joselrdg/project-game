@@ -7,15 +7,15 @@ class Player {
 
         this.maxX = this.map.cols * mpTsizeWidth;
         this.maxY = this.map.rows * mpTsizeHeight;
-        this.healthPercentage = 0;
+        // this.healthPercentage = 0;
         //  this.screenX = x;
         //  this.screenY = y;
-        this.healthHero = 10000;
+        // this.healthHero = 10000;
 
         // this.healthHeroPer = heroAttributes.health;
         // this.strengthHero = heroAttributes.strength;
-        this.armorHero = heroAttributes.armor;
-        this.shot = false;
+        // this.armorHero = heroAttributes.armor;
+        // this.shot = false;
 
         this.sx = 0;
         // this.syPlayer = 8;
@@ -28,6 +28,7 @@ class Player {
         this.casa = false;
         this.doorWorld = false;
         this.doorDungeon = false;
+        this.cntDungeon = false;
         // this.xCam = 0 // function camera
         // this.minX = 0
         // this.maxX = this.map.cols * this.map.tsize - this.width; // canvasWidth / 2; 
@@ -39,10 +40,10 @@ class Player {
         // this.maxY = this.map.rows * this.map.tsize - canvasHeight; ///this.height = 0           canvasWidth
 
         this.sprite = new Image()
-        this.sprite.src = './assets/img/charact.png';
+        this.sprite.src = './assets/img/player1.png';
         this.sprite.isReady = false
-        this.sprite.horizontalFrames = 1;
-        this.sprite.verticalFrames = 1;
+        this.sprite.horizontalFrames = 18;
+        this.sprite.verticalFrames = 48;
         this.sprite.horizontalFrameIndex = 0
         this.sprite.verticalFrameIndex = 0
         this.sprite.drawCount = 0
@@ -53,7 +54,22 @@ class Player {
             // this.spriteWidth = this.sprite.frameWidth
             // this.spriteHeight = this.sprite.frameHeight
         }
+
+        const scream = new Audio('./assets/sound/woman-scream.wav')
+        scream.volume = fightVol
+        const die = new Audio('./assets/sound/i-m-gonna-die.wav')
+        die.volume = fightVol
+        const defeated = new Audio('./assets/sound/player-defeated.wav')
+        defeated.volume = fightVol
+
+        this.sounds = {
+            scream,
+            die,
+            defeated
+        }
     }
+
+
 
     isReady() {
         return this.sprite.isReady
@@ -69,17 +85,18 @@ class Player {
         for (let index = 0; index < enemyUpdate.length; index++) {
             for (let i = 0; i < enemyUpdate[index].length; i++) {
                 if (!enemyUpdate[index][i].dead &&
-                    xCartesian < enemyUpdate[index][i].x + 100 &&
-                    xCartesian > enemyUpdate[index][i].x - 100 &&
-                    yCartesian < enemyUpdate[index][i].y + 100 &&
-                    yCartesian > enemyUpdate[index][i].y - 100 &&
+                    xCartesian < enemyUpdate[index][i].x + mapTsize &&
+                    xCartesian > enemyUpdate[index][i].x - mapTsize &&
+                    yCartesian < enemyUpdate[index][i].y + mapTsize &&
+                    yCartesian > enemyUpdate[index][i].y - mapTsize &&
                     timeFps === 0) {
+                    this.sounds.defeated.play()
                     heroAttributes.health -= enemyUpdate[index][i].damage
-                    console.log(heroAttributes.health)
                     heroAttributes.healthPercentage = 100 - (heroAttributes.health * 100) / heroAttributes.healthTotal;
-
-                    console.log(heroAttributes.healthPercentage)
                 }
+            }
+            if (heroAttributes.health < 1) {
+                this.sounds.die.play()
             }
         }
 
@@ -87,17 +104,57 @@ class Player {
         // loop through all layers and return TRUE if any tile is solid
         return this.map.layers.reduce(function (res, layer, index) { // no lo usa???---------------------------------->
             let tile = this.getTile(index, col, row);
-            if (tile === 91) {
-                enemyUpdate.length = 0;
-                this.casa = false;
-                this.doorDungeon = false;
-                mapRandon.createMapOn = true; //################## puertaaaaaaaaaaa
-                this.doorWorld = true;
-            } else if (tile === 92) {
-                enemyUpdate.length = 0;
-                this.doorWorld = false;
-                this.casa = false;
-                this.doorDungeon = true;
+            if (tile === 1 || tile === 2 || tile === 3 || tile === 20) {
+                this.y += 5
+            } else if (tile === 11) {
+                this.y -= 5
+            }
+            if (tile === 61 || tile === 62 || tile === 71 || tile === 72) {
+                this.sounds.scream.play()
+                heroAttributes.health -= 100;
+                heroAttributes.healthPercentage = 100 - (heroAttributes.health * 100) / heroAttributes.healthTotal;
+            }
+            if (tile === 49) {
+                heroAttributes.health = heroAttributes.healthTotal;
+                heroAttributes.healthPercentage = 0;
+            } else if (tile === 50) {
+                heroAttributes.mana = heroAttributes.manaTotal;
+                heroAttributes.manaPercentage = 0;
+            }
+            if (tile === 50) {
+                heroAttributes.mana = heroAttributes.manaTotal;
+            }
+            if (findHome) {
+                if (tile === 91) {
+                    enemyUpdate.length = 0;
+                    this.casa = false;
+                    this.doorDungeon = false;
+                    // this.cntDungeon = false;
+                    mapRandon.createMapOn = true; //################## puertaaaaaaaaaaa
+                    this.doorWorld = true;
+                } else if (tile === 92) {
+                    enemyUpdate.length = 0;
+                    this.doorWorld = false;
+                    this.casa = false;
+                    this.doorDungeon = true;
+                    this.cntDungeon = true;
+                }
+            } else {
+                if (tile === 91) {
+                    enemyUpdate.length = 0;
+                    this.casa = true;
+                    this.doorDungeon = false;
+                    // this.cntDungeon = false;
+                    mapRandon.createMapOn = true; //################## puertaaaaaaaaaaa
+                    this.doorWorld = false;
+                } else if (tile === 92) {
+                    enemyUpdate.length = 0;
+                    this.doorWorld = false;
+                    this.casa = true;
+                    this.doorDungeon = true;
+                    this.cntDungeon = true;
+                    findHome = true
+                }
             }
             let isSolid = tile < 30 && tile > 0 //tile === 3 || tile === 5; ################################################ is solid
             return res || isSolid;
@@ -149,12 +206,12 @@ class Player {
             this.y += 0
             return;
         }
-        collision = this.isSolidTileAtXY(left, bottom);
-        if (collision) {
-            this.x += 5
-            this.y -= 15
-            return;
-        }
+        // collision = this.isSolidTileAtXY(left, bottom);
+        // if (collision) {
+        //     this.x += 0
+        //     this.y -= l
+        //     return;
+        // }
 
 
 
@@ -197,72 +254,55 @@ class Player {
         yCartesian = this.y;
         // console.log('col x: ' + this.getCol(this.x))
         // console.log('col y: ' + this.getCol(this.y))
-        let xCol = this.getCol(this.x);
-        let yRow = this.getCol(this.y);
-        xIsometric = xCol * mpTsizeWidth / 2 + yRow * mpTsizeWidth / 2 + offsetX;
-        yIsometric = yRow * mpTsizeHeight / 2 - xCol * mpTsizeHeight / 2 + offsetY
+        // let xCol = this.getCol(this.x);
+        // let yRow = this.getCol(this.y);
+        // xIsometric = xCol * mpTsizeWidth / 2 + yRow * mpTsizeWidth / 2 + offsetX;
+        // yIsometric = yRow * mpTsizeHeight / 2 - xCol * mpTsizeHeight / 2 + offsetY
         // console.log(xIsometric)
     };
 
     cast() {
         if (heroAttributes.weapon.shoot) {
-            // if (heroAttributes.weapon.xTarget > heroAttributes.weapon.xOrigin) {
-            //     heroAttributes.weapon.xOrigin += 0.3
-            // } else {
-            //     heroAttributes.weapon.xOrigin -= 0.3
-            // }
-            // if (heroAttributes.weapon.yTarget > heroAttributes.weapon.yOrigin) {
-            //     heroAttributes.weapon.yOrigin += 0.3
-            // } else {
-            //     heroAttributes.weapon.yOrigin -= 0.3
-            // }
-            let oX = heroAttributes.weapon.xOrigin;
-            let oY = heroAttributes.weapon.yOrigin;
-            let xX = heroAttributes.weapon.xTarget;
-            let yY = heroAttributes.weapon.yTarget;
             let speed = heroAttributes.weapon.speed;
+            let drrTarget = heroAttributes.weapon.drrTarget;
+            if (heroAttributes.weapon.tTarget === 0) {
+                heroAttributes.mana -= heroAttributes.weapon.restmana;
+                heroAttributes.manaPercentage += (heroAttributes.weapon.restmana * 100) / heroAttributes.manaTotal;
+                heroAttributes.weapon.xOrigin = (screenX - mapTsize / 2);
+                heroAttributes.weapon.yOrigin = (screenY - mapTsize / 2);
+            }
+            // setTimeout(() => {
+            //     castT()
+            // }, 500);
 
+            if (heroAttributes.weapon.tTarget < 50) { // tiempo de la magia
+                heroAttributes.weapon.tTarget++
+                if (drrTarget === 0) {
+                    heroAttributes.weapon.yOrigin -= speed + 3;
+                } else if (drrTarget === 1) {
+                    heroAttributes.weapon.xOrigin += speed;
+                    heroAttributes.weapon.yOrigin -= speed;
+                } else if (drrTarget === 2) {
+                    heroAttributes.weapon.xOrigin += speed + 3;
+                } else if (drrTarget === 3) {
+                    heroAttributes.weapon.yOrigin += speed;
+                    heroAttributes.weapon.xOrigin += speed;
+                } else if (drrTarget === 4) {
+                    heroAttributes.weapon.yOrigin += speed + 3;
+                } else if (drrTarget === 5) {
+                    heroAttributes.weapon.yOrigin += speed;
+                    heroAttributes.weapon.xOrigin -= speed;
+                } else if (drrTarget === 6) {
+                    heroAttributes.weapon.xOrigin -= speed + 3;
+                } else if (drrTarget === 7) {
+                    heroAttributes.weapon.yOrigin -= speed;
+                    heroAttributes.weapon.xOrigin -= speed;
+                }
+            } else {
+                heroAttributes.weapon.tTarget = 0;
+                heroAttributes.weapon.shoot = false;
+            }
 
-            if (xX - mapTsize / 2 < oX && // enemigo abajo drch
-                yY - mapTsize / 2 < oY) {
-                heroAttributes.weapon.xOrigin -= speed;
-                heroAttributes.weapon.yOrigin -= speed;
-            }
-            if (xX + mapTsize / 2 > oX &&
-                yY + mapTsize / 2 > oY) {
-                heroAttributes.weapon.xOrigin += speed; // 
-                heroAttributes.weapon.yOrigin += speed; // enemigo arriba izq
-            }
-            if (yY - mapTsize / 2 < oY &&
-                xX + mapTsize / 2 > oX) {
-                heroAttributes.weapon.xOrigin += speed; // enemigo arriba drch
-                heroAttributes.weapon.yOrigin -= speed;
-            }
-            if (yY + mapTsize / 2 > oY &&
-                xX - mapTsize / 2 < oX) {
-                heroAttributes.weapon.xOrigin -= speed;
-                heroAttributes.weapon.yOrigin += speed; // enemigo abajo izq
-            }
-            if (oX > xX &&
-                oY < yY + 32 && // enemigo izq
-                oY > yY - 32) {
-                heroAttributes.weapon.xOrigin -= speed;
-            }
-            if (oX < xX &&
-                oY < yY + 32 && // enemigo drch
-                oY > yY - 32) {
-                heroAttributes.weapon.xOrigin += speed;
-            }
-            if (oY > yY &&
-                oX < xX + 32 &&
-                oX > xX - 32) { // enemigo abajo
-                    oY -= speed;
-            }
-            if (oY < yY && // enemigo arriba
-                oX < xX + 32 &&
-                oX > xX - 32) {
-                heroAttributes.weapon.yOrigin += speed;
-            }
         }
     }
 
@@ -280,31 +320,31 @@ class Player {
                 // mpTsizeWidth,
                 // mpTsizeWidth
 
-                sx * mapTsize,
-                sy * mapTsize,
-                mapTsize,
-                mapTsize,
-                screenX - mapTsize / 2, // this.x
-                screenY - mapTsize / 2, // this.y,                
-                mapTsize,
-                mapTsize
+                sx * 75,
+                sy * 75,
+                75,
+                75,
+                screenX - 75 / 2, // this.x
+                screenY - 75 / 2, // this.y,                
+                75,
+                75
             )
-            this.sprite.drawCount++
-
+            // this.sprite.drawCount++
             if (heroAttributes.weapon.shoot) {
                 ctx.drawImage(
                     this.sprite,
                     heroAttributes.weapon.sxWeapon,
-                    1 * mapTsize,
-                    mapTsize,
-                    mapTsize,
+                    49 * this.sprite.frameWidth,
+                    this.sprite.frameWidth,
+                    this.sprite.frameHeight,
                     heroAttributes.weapon.xOrigin,
                     heroAttributes.weapon.yOrigin,
-                    mapTsize,
-                    mapTsize
+                    this.sprite.frameWidth,
+                    this.sprite.frameHeight
 
                 )
             }
+
 
         }
     }

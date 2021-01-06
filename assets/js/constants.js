@@ -16,8 +16,8 @@ let cntLevel = 1
 const mapTsize = 64;
 const mpTsizeWidth = 64;
 const mpTsizeHeight = 64;
-let colsMap = 64;
-let rowsMap = 64;
+let colsMap = 128;
+let rowsMap = 128;
 
 let createMapOn = true;
 
@@ -35,38 +35,50 @@ let yIsometric = 0;
 let offsetX = 0;
 let offsetY = 0
 
+let ambientVol = 0.1;
+let fightVol = 0.1;
 
-
-const delta = 1 / 50; // >> No está en uso, quitar del codigo o dejar 1/50
+const delta = 1 / 60; // >> No está en uso, quitar del codigo o dejar 1/50
 const heroSPEED = 256;
 
 // const retrasoGolpe = 32;
 
 let levelEnemy = 1;
 const timeEnemy = 10; // tiempo en borrar enemigos en min
-const collideEnemy = 30;
+const collideEnemy = 16;
 
+let xpP = 1;
+let findHome = false;
 
 let heroAttributes = {
-  healthTotal: 10000,
+  level: 1,
+  healthTotal: 5000,
   healthPercentage: 0,
-  health: 10000,
+  health: 5000,
+  manaTotal: 100,
+  manaPercentage: 0,
+  mana: 100,
   strength: 100,
+  dexterrity: 123,
+  intelligent: 111,
   armor: 100,
+  xp: 1,
+  gold: 0,
   weapon: {
     shoot: false,
-    speed: 0.5,
-    damage: 0,
+    restmana: 10,
+    speed: 4,
+    damage: 200,
     sxWeapon: 0,
     xOrigin: 0,
     yOrigin: 0,
-    xTarget: 0,
-    yTarget: 0
+    tTarget: 0,
+    drrTarget: 0
   }
 
 }
 
-let castSpell = [];
+// let castSpell = [];
 
 
 
