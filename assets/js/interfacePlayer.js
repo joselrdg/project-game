@@ -76,6 +76,20 @@ class InerfacePlayer {
             this.spriteIcon.frameWidth = Math.floor(this.spriteIcon.width / this.spriteIcon.horizontalFrames)
             this.spriteIcon.frameHeight = Math.floor(this.spriteIcon.height / this.spriteIcon.verticalFrames)
         }
+
+        this.spriteItems = new Image()
+        this.spriteItems.src = './assets/img/items.png';
+        this.spriteItems.isReady = false
+        this.spriteItems.horizontalFrames = 1;
+        this.spriteItems.verticalFrames = 3;
+        this.spriteItems.horizontalFrameIndex = 0
+        this.spriteItems.verticalFrameIndex = 0
+        this.spriteItems.onload = () => {
+            this.spriteItems.isReady = true
+            this.spriteItems.frameWidth = Math.floor(this.spriteItems.width / this.spriteItems.horizontalFrames)
+            this.spriteItems.frameHeight = Math.floor(this.spriteItems.height / this.spriteItems.verticalFrames)
+        }
+
         this.spriteMenu1 = new Image()
         this.spriteMenu1.src = './assets/img/menu1.png';
         this.spriteMenu1.isReady = false
@@ -108,7 +122,8 @@ class InerfacePlayer {
             this.spriteEnter.isReady &&
             this.spriteIcon.isReady &&
             this.spriteMenu1.isReady &&
-            this.spriteBag.isReady) {
+            this.spriteBag.isReady &&
+            this.spriteItems.isReady) {
             return true
         };
 
@@ -179,7 +194,7 @@ class InerfacePlayer {
             if (this.b) {
                 this.bag()
             }
-            this.xp()
+            // this.xp()
             // this.drawBar()
             this.renderIcon(syIcon);
             this.renderflower()
@@ -192,7 +207,7 @@ class InerfacePlayer {
         }
     }
 
-    bag(){
+    bag() {
         if (this.isReady()) {
             this.ctx.drawImage(
                 this.spriteBag,
@@ -200,14 +215,14 @@ class InerfacePlayer {
                 0,
                 this.spriteBag.width,
                 this.spriteBag.height,
-                cameraWidth/2,
+                cameraWidth / 2,
                 0, // this.y,                
                 this.spriteBag.width,
                 this.spriteBag.height);
-                this.ctxtextAlign = "center";
-                this.ctx.font = "10px Anton";
-                this.ctx.fillStyle = "#d0d0d0";
-                this.ctx.fillText(heroAttributes.gold, cameraWidth / 2 + 110, this.spriteMenu1.height - 87);
+            this.ctxtextAlign = "center";
+            this.ctx.font = "10px Anton";
+            this.ctx.fillStyle = "#d0d0d0";
+            this.ctx.fillText(heroAttributes.gold, cameraWidth / 2 + 110, this.spriteMenu1.height - 87);
         }
     }
 
@@ -220,7 +235,7 @@ class InerfacePlayer {
                 0,
                 this.spriteMenu1.width,
                 this.spriteMenu1.height,
-                cameraWidth/2-this.spriteMenu1.width,
+                cameraWidth / 2 - this.spriteMenu1.width,
                 0, // this.y,                
                 this.spriteMenu1.width,
                 this.spriteMenu1.height);
@@ -229,7 +244,7 @@ class InerfacePlayer {
         this.ctxtextAlign = "center";
         this.ctx.font = "15px Anton";
         this.ctx.fillStyle = "#d0d0d0";
-        this.ctx.fillText(heroAttributes.level, cameraWidth/2 -194, 100);
+        this.ctx.fillText(heroAttributes.level, cameraWidth / 2 - 194, 100);
         this.ctxtextAlign = "center";
         this.ctx.font = "10px Anton";
         this.ctx.fillStyle = "#d0d0d0";
@@ -256,10 +271,10 @@ class InerfacePlayer {
         let xp = Math.round(heroAttributes.xp)
         console.log(xp)
         this.ctx.fillStyle = "#ff0";
-        // this.ctx.clearRect(0, cameraHeight - 5, cameraWidth, 5)
-        this.ctx.rect(0, cameraHeight-5, cameraWidth, 5);
+        this.ctx.rect(0, cameraHeight - 5, xp, 5);
         this.ctx.fill();
         if (heroAttributes.xp > cameraWidth + 1) { // actualiza xp
+            this.ctx.clearRect(0, cameraHeight - 5, cameraWidth, 5)
             heroAttributes.level++
             heroAttributes.healthTotal += 1000;
             heroAttributes.health += 1000;
@@ -272,7 +287,7 @@ class InerfacePlayer {
                 this.cnt = false;
             }, 3000);
         }
-        this.ctx.clearRect(xp, cameraHeight - 5, cameraWidth, 5)
+        // this.ctx.clearRect(xp, cameraHeight - 5, cameraWidth, 5)
         if (this.cnt) {
             this.ctxtextAlign = "center";
             this.ctx.font = "30px Anton";
@@ -293,6 +308,36 @@ class InerfacePlayer {
                 10, // this.y,                
                 64,
                 64);
+            ctx.drawImage(
+                this.spriteItems,
+                0,
+                1 * this.spriteItems.frameHeight,
+                this.spriteItems.frameWidth,
+                this.spriteItems.frameHeight,
+                15,
+                10,
+                this.spriteItems.frameWidth,
+                this.spriteItems.frameHeight
+            );
+            ctx.drawImage(
+                this.spriteItems,
+                0,
+                2 * this.spriteItems.frameHeight,
+                this.spriteItems.frameWidth,
+                this.spriteItems.frameHeight,
+                100,
+                10,
+                this.spriteItems.frameWidth,
+                this.spriteItems.frameHeight
+            )
+            this.ctxtextAlign = "center";
+            this.ctx.font = "15px Anton";
+            this.ctx.fillStyle = "#d0d0d0";
+            this.ctx.fillText(heroAttributes.items.manaJar, 60, 33);
+            this.ctxtextAlign = "center";
+            this.ctx.font = "15px Anton";
+            this.ctx.fillStyle = "#d0d0d0";
+            this.ctx.fillText(heroAttributes.items.healthJar, 145, 33);
         }
     }
 

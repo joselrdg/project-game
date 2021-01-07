@@ -162,6 +162,29 @@ class Game {
             } else if (Keyboard.isDown(Keyboard.DIGIT6)) {
                 this.digit = 6;
             }
+            if (Keyboard.isDown(Keyboard.VIDA )) {
+                if (heroAttributes.items.healthJar>0&& timeFps === 0){
+                    console.log(`'estro en healt'
+                    jarra ${heroAttributes.healthJar}
+                    vida ${heroAttributes.health}`)
+                    heroAttributes.items.healthJar-=1;
+                    heroAttributes.health+= 1000;
+                    if (heroAttributes.health>heroAttributes.healthTotal) {
+                        heroAttributes.health = heroAttributes.healthTotal
+                    }
+                }
+            } else if (Keyboard.isDown(Keyboard.MANA)) {
+                if (heroAttributes.items.manaJar>0 && timeFps === 0){
+                    console.log('estro en mana')
+                    heroAttributes.items.manaJar-=1;
+                    heroAttributes.mana+= 1000;
+                    if (heroAttributes.mana>heroAttributes.manaTotal) {
+                        heroAttributes.mana = heroAttributes.manaTotal
+                    }
+                }
+                console.log(`jarramana ${heroAttributes.manaJar}
+                    mana ${heroAttributes.mana}`)
+            }
             // handle hero
             let dirx = 0;
             let diry = 0;
@@ -196,7 +219,7 @@ class Game {
                 this.syPlayer = 0;
             }
             this.playerShot(this.digit);
-            this.player.heroMove(dirx, diry, this.digit);
+            this.player.heroMove(dirx, diry);
             this.camera.update(this.player.map.cols, this.player.map.rows, xCartesian, yCartesian);
             this.enemies.enemyMove(this.animatedShot, this.drrShot, heroAttributes.strength);
             this.mapControl();

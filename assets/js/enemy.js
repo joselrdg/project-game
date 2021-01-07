@@ -24,6 +24,9 @@ class Enemy {
         };
         // this.cntKey = -1;
 
+        this.pushArticulos = true;
+        this.articulos = [{}];
+
         this.sprite = new Image();
         this.sprite.src = './assets/img/diablo.png'; //`${this.enemy.img}`
         this.sprite.isReady = false;
@@ -111,6 +114,20 @@ class Enemy {
             this.spriteKey.isReady = true
         }
 
+        this.spriteItems = new Image();
+        this.spriteItems.src = './assets/img/items.png';
+        this.spriteItems.isReady = false;
+        this.spriteItems.horizontalFrames = 1;
+        this.spriteItems.verticalFrames = 3;
+        this.spriteItems.horizontalFrameIndex = 0
+        this.spriteItems.verticalFrameIndex = 0
+        this.spriteItems.drawCount = 0
+        this.spriteItems.onload = () => {
+            this.spriteItems.isReady = true
+            this.spriteItems.frameWidth = Math.floor(this.spriteItems.width / this.spriteItems.horizontalFrames)
+            this.spriteItems.frameHeight = Math.floor(this.spriteItems.height / this.spriteItems.verticalFrames)
+        }
+
         const block = new Audio('./assets/sound/block.mp3')
         block.volume = fightVol
         const die = new Audio('./assets/sound/demon-dying.wav')
@@ -137,7 +154,9 @@ class Enemy {
             this.spriteBoos1.isReady &&
             this.spriteMefisto.isReady &&
             this.spriteAndariel.isReady &&
-            this.spriteFetish.isReady) {
+            this.spriteFetish.isReady &&
+            this.spriteKey.isReady &&
+            this.spriteItems.isReady) {
             return true
         }
     }
@@ -231,52 +250,6 @@ class Enemy {
                             hold.health -= shot;
                             this.sounds.block.play()
                         }
-
-
-                        // if (hold.x < xCartesian + mapTsize / 2 &&
-                        //     hold.x >= xCartesian &&
-                        //     hold.y < yCartesian + mapTsize / 2 &&
-                        //     hold.y >= yCartesian) {
-                        //     // rectangulo drx inferior
-                        //     if (drrShot === 2 || drrShot === 3 || drrShot === 4) {
-                        //         hold.health -= shot;
-                        //         hold.x += retrasoGolpe;
-                        //         hold.y += retrasoGolpe;
-                        //         this.sounds.block.play()
-                        //     }
-                        // } else if (hold.x > xCartesian - mapTsize / 2 &&
-                        //     hold.x <= xCartesian &&
-                        //     hold.y < yCartesian + mapTsize / 2 &&
-                        //     hold.y >= yCartesian) {
-                        //     // rectangulo izq inferior
-                        //     if (drrShot === 4 || drrShot === 5 || drrShot === 6) {
-                        //         hold.health -= shot;
-                        //         hold.x -= retrasoGolpe;
-                        //         hold.y += retrasoGolpe;
-                        //         this.sounds.block.play()
-                        //     }
-                        // } else if (hold.x < xCartesian + mapTsize / 2 &&
-                        //     hold.x >= xCartesian &&
-                        //     hold.y > yCartesian - mapTsize / 2 &&
-                        //     hold.y <= yCartesian) {
-                        //     // rectangulo drx superior
-                        //     if (drrShot === 2 || drrShot === 3 || drrShot === 4) {
-                        //         hold.health -= shot;
-                        //         hold.x += retrasoGolpe;
-                        //         hold.y -= retrasoGolpe;
-                        //         this.sounds.block.play()
-                        //     }
-                        // } else if (hold.x > xCartesian - mapTsize / 2 &&
-                        //     hold.x <= xCartesian &&
-                        //     hold.y > yCartesian - mapTsize / 2 &&
-                        //     hold.y <= yCartesian) {
-                        //     // rectangulo izq superior
-                        //     if (drrShot === 4 || drrShot === 5 || drrShot === 6) {
-                        //         hold.health -= shot;
-                        //         hold.x -= retrasoGolpe;
-                        //         hold.y -= retrasoGolpe;
-                        //         this.sounds.block.play()
-                        //     }
                     }
                     if (hold.health < 1) {
                         heroAttributes.xp += cameraWidth / xpP;
@@ -287,7 +260,7 @@ class Enemy {
                             this.dropKey.keys[this.dropKey.cntKey] = 0;
                             this.dropKey.key = true;
                             this.sounds.diemef.play()
-                            this.renderProfit(hold.x, hold.y)
+                            this.renderItem(hold.x, hold.y, 1) // mirarrarararararr
                             this.portalMision = true;
                             hold.sy = 8;
                         } else
@@ -298,9 +271,30 @@ class Enemy {
                             hold.sy = 8;
                             this.sounds.die2.play()
                         }
+                        if (this.pushArticulos && timeFps === 0 && hold.dead) {
+                            this.pushArticulos = false;
+                            let ranArt = getRandomInt(0, 4) // probabilidad de que  caiga item
+                            let ranG = 0
+                            if (ranArt < 4) {
+                                if (ranArt === 0) {
+                                    ranG = getRandomInt(1, 12)
+                                }
+                                let articulo = {
+                                    x: hold.x,
+                                    y: hold.y,
+                                    item: ranArt,
+                                    gold: ranG,
+                                    collected: false
+                                }
+
+                                this.articulos.push(articulo)
+                                setTimeout(() => {
+                                    this.pushArticulos = true;
+                                }, 1000);
+                            }
+                        }
                         hold.dead = true;
                     }
-
                     if (hold.health > 0) {
                         let xcoorP = xCartesian;
                         let ycoorP = yCartesian;
@@ -423,43 +417,63 @@ class Enemy {
 
     }
 
-    renderProfit(x, y) {
-        // let sy = 0
-        // if (this.dropKey.cntKey === 0){
-        //     sy = 4;
-        // } else if (this.dropKey.cntKey === 1){
-        //     sy = 3;
-        // } else if (this.dropKey.cntKey === 2){
-        //     sy = 2
-        // } else {
-        //     sy = 1
-        // }
-        // console.log('x: '+ x + ' y: ' + y + ' xcart: ' + xCartesian + ' ycart: ' + yCartesian)
-        if (this.isReady()) {
-            ctx.drawImage(
-                this.spriteKey,
-                0,
-                1 * 128,
-                128,
-                128,
-                xCartesian,
-                yCartesian, // enemyUpdate[i][j].x - cameraX, // screenX - this.spriteWidth / 2, // this.x
-                // enemyUpdate[i][j].y - cameraY, // screenY - this.spriteHeight / 2, // this.y,                
-                64,
-                64
-            )
-            // if (this.cntKey < 3) {
-            //     this.cntKey++
-            // } else {
-            //     this.cntKey = 0;
-            // }
-
+    renderItem(key) {
+        let sprite = this.spriteItems;
+        let sy = 0;
+        if (key) {
+            sprite = this.spriteKey
+            sy = key;
         }
+        if (this.isReady()) {
+            if (this.articulos.length > 1) {
+                for (let i = 0; i < this.articulos.length; i++) {
+                    let itemSolo = this.articulos.shift();
+                    console.log(this.articulos)
+                    if (itemSolo.x < xCartesian + 32 &&
+                        itemSolo.x > xCartesian - 32 &&
+                        itemSolo.y < yCartesian + 32 &&
+                        itemSolo.y > yCartesian - 32 &&
+                        !itemSolo.collected) {
+                        console.log(itemSolo)
+                        if (itemSolo.item === 0) {
+                            console.log('entro en item 0')
+                            heroAttributes.gold += itemSolo.gold
+                        } else if (itemSolo.item === 1) {
+                            console.log('entro en item 1')
 
+                            heroAttributes.items.manaJar++;
+                        } else if (itemSolo.item === 2) {
+                            console.log('entro en item 2')
+
+                            heroAttributes.items.healthJar++;
+                        }
+                        itemSolo.collected = true;
+                    }
+
+                    if (!itemSolo.collected) {
+                        sy = itemSolo.item;
+                        ctx.drawImage(
+                            sprite,
+                            0,
+                            sy * sprite.frameHeight,
+                            sprite.frameWidth,
+                            sprite.frameHeight,
+                            itemSolo.x - cameraX,
+                            itemSolo.y - cameraY,
+                            sprite.frameWidth,
+                            sprite.frameHeight
+                        )
+                        this.articulos.push(itemSolo)
+                    }
+                    console.log(this.articulos)
+                }
+            }
+        }
     }
 
 
     renderEnemy(sx) {
+        this.renderItem()
         if (this.dropKey.key) {
             // let ranx = this.dropKey.x;
             // let rany = this.dropKey.y;

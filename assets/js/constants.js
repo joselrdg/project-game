@@ -74,10 +74,21 @@ let heroAttributes = {
     yOrigin: 0,
     tTarget: 0,
     drrTarget: 0
+  },
+  items:{
+    manaJar: 0,
+    healthJar: 0,
   }
 
 }
 
+// let articulo = {
+//   x: 0,
+//   y: 0,
+//   item: 0,
+//   gold: 0,
+//   collected: false
+// }
 // let castSpell = [];
 
 

@@ -232,13 +232,7 @@ class Player {
 
     };
 
-    heroMove(dirX, dirY, digit) {
-        // this.playerShot()
-        // move hero
-        // console.log(rows)
-
-        // let maxX = this.map.cols * mpTsizeWidth;
-        // let maxY = this.map.rows * mpTsizeHeight;
+    heroMove(dirX, dirY, items) {
 
         this.x += dirX * this.heroSPEED * delta;
         this.y += dirY * this.heroSPEED * delta;

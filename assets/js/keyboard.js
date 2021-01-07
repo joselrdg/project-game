@@ -1,14 +1,16 @@
 let Keyboard = {};
 // const canvas = document.getElementById('canvas')
 
+Keyboard.PAUSE = 76;
+Keyboard.ENTER = 13;
 Keyboard.LEFT = 65; //37;
 Keyboard.RIGHT = 68; //39;
 Keyboard.UP = 87; //38;
 Keyboard.DOWN = 83; //40;
-Keyboard.PAUSE = 76;
 Keyboard.MENU1 = 80;
 Keyboard.BAG =  66;
-Keyboard.ENTER = 13;
+Keyboard.VIDA = 81;
+Keyboard.MANA = 69;
 Keyboard.CONTROLES = 75;
 Keyboard.DIGIT1 = 49;
 Keyboard.DIGIT2 = 50;
