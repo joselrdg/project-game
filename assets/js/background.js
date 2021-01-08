@@ -15,6 +15,8 @@ class Background {
 
         this.place = place;
 
+        // this.casa1 = casa1
+
         // this.portalMision = true;
 
         this.sy = 0;
@@ -32,6 +34,21 @@ class Background {
             this.spriteBackground.isReady = true
             this.spriteBackground.frameWidth = Math.floor(this.spriteBackground.width / this.spriteBackground.horizontalFrames)
             this.spriteBackground.frameHeight = Math.floor(this.spriteBackground.height / this.spriteBackground.verticalFrames)
+            // this.width = this.spriteBackground.frameWidth
+            // this.height = this.spriteBackground.frameHeight
+        }
+        this.spriteBackgroundHome = new Image()
+        this.spriteBackgroundHome.src = './assets/img/tileset1.png';
+        this.spriteBackgroundHome.isReady = false
+        this.spriteBackgroundHome.horizontalFrames = 9;
+        this.spriteBackgroundHome.verticalFrames = 9;
+        this.spriteBackgroundHome.horizontalFrameIndex = 0
+        this.spriteBackgroundHome.verticalFrameIndex = 0
+        this.spriteBackgroundHome.drawCount = 0
+        this.spriteBackgroundHome.onload = () => {
+            this.spriteBackgroundHome.isReady = true
+            this.spriteBackgroundHome.frameWidth = Math.floor(this.spriteBackgroundHome.width / this.spriteBackgroundHome.horizontalFrames)
+            this.spriteBackgroundHome.frameHeight = Math.floor(this.spriteBackgroundHome.height / this.spriteBackgroundHome.verticalFrames)
             // this.width = this.spriteBackground.frameWidth
             // this.height = this.spriteBackground.frameHeight
         }
@@ -82,7 +99,8 @@ class Background {
         if (this.spriteBackground.isReady &&
             this.spritePortal.isReady &&
             this.spriteFire.isReady &&
-            this.spriteFireB.isReady) {
+            this.spriteFireB.isReady &&
+            this.spriteBackgroundHome.isReady) {
             return true
         }
     }
@@ -93,18 +111,6 @@ class Background {
     }
 
     renderingMap(layer, sx, portal, place) {
-        // if (place && timeSeg === 10 && timeFps === 0|| place && timeSeg === 20 && timeFps === 0 ) {
-        //     console.log('esta dentrooooooooadfljalsdjljlas')
-        //     let r = getRandomInt(0, mapDungeon.cols * mapDungeon.rows - 1)
-        //     let rf = getRandomInt(1, 4)
-        //     if (rf === 1) {
-        //         this.map.layers[1][r] = 61
-        //     } else if (rf === 2) {
-        //         this.map.layers[1][r] = 71;
-        //     } else {
-        //         this.map.layers[1][r] = 62
-        //     }
-        // }
         if (sx === 0) {
             this.sxBack++
         }
@@ -112,6 +118,10 @@ class Background {
             this.sxBack = 0;
         }
         if (this.isReady()) {
+            let spriteBackg = this.spriteBackground
+            if (!findHome && home1) {
+                spriteBackg = this.spriteBackgroundHome;
+            }
             let startCol = Math.floor((cameraX / mpTsizeWidth));
             let endCol = startCol + (cameraWidth / mpTsizeWidth);
             let startRow = Math.floor(cameraY / mpTsizeHeight);
@@ -136,7 +146,7 @@ class Background {
 
                     if (this.tile !== 0 || this.tile < 50) { // 0 => empty tile
                         this.ctx.drawImage( // ctx.drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight);
-                            this.spriteBackground, // image
+                            spriteBackg, // image
                             // (this.tile - 1) * mpTsizeWidth, //this.spriteBackground.frameWidth, // source x // sx La coordenada X de la esquina superior izquierda del sub-rectangulo de la imagen origen a dibujar en el contexto de destino.
                             // this.sy * mpTsizeHeight, // source y  // sy  La coordenada Y de la esquina superior izquierda del sub-rectangulo de la imagen origen a dibujar en el contexto de destino.                                         
                             (this.tile - 1) * mpTsizeWidth,
@@ -151,8 +161,6 @@ class Background {
                     }
                     if (this.tile > 60 && this.tile <= 70) {
                         this.tile = this.tile - 60;
-
-                        // console.log(this.spriteFire.frameWidth)
                         this.ctx.drawImage(
                             this.spriteFire,
                             this.sxBack * this.spriteFire.frameWidth,
@@ -212,16 +220,18 @@ class Background {
                     180,
                     180);
             }
-            this.ctx.drawImage(
-                this.spritePortal,
-                0 * this.spritePortal.frameWidth,
-                1 * this.spritePortal.frameHeight,
-                this.spritePortal.frameWidth,
-                this.spritePortal.frameHeight,
-                (xP + 8) - cameraX,
-                yP - cameraY, // this.y,                
-                180,
-                180);
+            if (findHome) {
+                this.ctx.drawImage(
+                    this.spritePortal,
+                    0 * this.spritePortal.frameWidth,
+                    1 * this.spritePortal.frameHeight,
+                    this.spritePortal.frameWidth,
+                    this.spritePortal.frameHeight,
+                    (xP + 8) - cameraX,
+                    yP - cameraY, // this.y,                
+                    180,
+                    180);
+            }
         }
 
     }
@@ -231,7 +241,7 @@ class Background {
 
         }
         if (this.place === 'casa') {
-            if (this.tile < 10) {
+            if (this.tile <= 10) {
                 this.sy = 9
             } else if (this.tile > 10 && this.tile <= 20) {
                 this.sy = 8;
@@ -240,8 +250,10 @@ class Background {
                 this.sy = 7;
                 this.tile = this.tile - 20;
             } else if (this.tile > 30 && this.tile <= 40) {
-                if (this.tile >= 32){
-                    this.tile = 32
+                if (!home1) {
+                    if (this.tile >= 32) {
+                        this.tile = 32
+                    }
                 }
                 this.sy = 6;
                 this.tile = this.tile - 30;

@@ -265,7 +265,16 @@ class Enemy {
                             hold.sy = 8;
                         } else
                         if (hold.type === 'devil' || hold.type === 'boss2') {
-                            hold.sy = 17;
+                            if (!missions.mision1.finish &&
+                                missions.mision1.deadCreatures < missions.mision1.totalDeadCreatures &&
+                                !hold.dead) {
+                                missions.mision1.deadCreatures++;
+                            } else if (hold.type === 'boss2' && !missions.mision2.finish &&
+                                missions.mision2.deadCreatures < missions.mision2.totalDeadCreatures &&
+                                !hold.dead){
+                                    missions.mision2.deadCreatures++;
+                                }
+                                hold.sy = 17;
                             this.sounds.die.play()
                         } else {
                             hold.sy = 8;
@@ -428,23 +437,16 @@ class Enemy {
             if (this.articulos.length > 1) {
                 for (let i = 0; i < this.articulos.length; i++) {
                     let itemSolo = this.articulos.shift();
-                    console.log(this.articulos)
                     if (itemSolo.x < xCartesian + 32 &&
                         itemSolo.x > xCartesian - 32 &&
                         itemSolo.y < yCartesian + 32 &&
                         itemSolo.y > yCartesian - 32 &&
                         !itemSolo.collected) {
-                        console.log(itemSolo)
                         if (itemSolo.item === 0) {
-                            console.log('entro en item 0')
                             heroAttributes.gold += itemSolo.gold
                         } else if (itemSolo.item === 1) {
-                            console.log('entro en item 1')
-
                             heroAttributes.items.manaJar++;
                         } else if (itemSolo.item === 2) {
-                            console.log('entro en item 2')
-
                             heroAttributes.items.healthJar++;
                         }
                         itemSolo.collected = true;
@@ -465,7 +467,6 @@ class Enemy {
                         )
                         this.articulos.push(itemSolo)
                     }
-                    console.log(this.articulos)
                 }
             }
         }

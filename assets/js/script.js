@@ -12,6 +12,7 @@ Keyboard.listenForEvents(
         Keyboard.RIGHT,
         Keyboard.UP,
         Keyboard.DOWN,
+        Keyboard.INFO,
         Keyboard.MENU1,
         Keyboard.BAG,
         Keyboard.VIDA,

@@ -25,7 +25,7 @@ class Player {
 
         this.heroSPEED = heroSPEED // 256; // pixels per second --------------->
 
-        this.casa = false;
+        this.casa2 = false;
         this.doorWorld = false;
         this.doorDungeon = false;
         this.cntDungeon = false;
@@ -109,7 +109,7 @@ class Player {
             } else if (tile === 11) {
                 this.y -= 5
             }
-            if (tile === 61 || tile === 62 || tile === 71 || tile === 72) {
+            if (tile === 61 || tile === 62 || tile === 71 || tile === 72) { // fuego
                 this.sounds.scream.play()
                 heroAttributes.health -= 100;
                 heroAttributes.healthPercentage = 100 - (heroAttributes.health * 100) / heroAttributes.healthTotal;
@@ -124,41 +124,73 @@ class Player {
             if (tile === 50) {
                 heroAttributes.mana = heroAttributes.manaTotal;
             }
-            if (findHome) {
-                if (tile === 91) {
-                    enemyUpdate.length = 0;
-                    this.casa = false;
-                    this.doorDungeon = false;
-                    // this.cntDungeon = false;
-                    mapRandon.createMapOn = true; //################## puertaaaaaaaaaaa
-                    this.doorWorld = true;
-                } else if (tile === 92) {
-                    enemyUpdate.length = 0;
-                    this.doorWorld = false;
-                    this.casa = false;
-                    this.doorDungeon = true;
-                    this.cntDungeon = true;
-                }
-            } else {
-                if (tile === 91) {
-                    enemyUpdate.length = 0;
-                    this.casa = true;
-                    this.doorDungeon = false;
-                    // this.cntDungeon = false;
-                    mapRandon.createMapOn = true; //################## puertaaaaaaaaaaa
-                    this.doorWorld = false;
-                } else if (tile === 92) {
-                    enemyUpdate.length = 0;
-                    this.doorWorld = false;
-                    this.casa = true;
-                    this.doorDungeon = true;
-                    this.cntDungeon = true;
-                    findHome = true
-                }
+
+            if (tile === 91) {
+                enemyUpdate.length = 0;
+                this.casa2 = false;
+                home1 = false;
+                this.doorDungeon = false;
+                // this.cntDungeon = false;
+                enemyUpdate.length = 0;
+                mapRandon.createMapOn = true; //################## puertaaaaaaaaaaa
+                this.doorWorld = true;
+            } else if (tile === 92) {
+                enemyUpdate.length = 0;
+                this.doorWorld = false;
+                this.casa2 = false;
+                home1 = false;
+                this.doorDungeon = true;
+                this.cntDungeon = true;
+            } else if (tile === 93) {
+                enemyUpdate.length = 0;
+                this.doorWorld = false;
+                this.casa2 = true;
+                this.doorDungeon = false;
+                findHome = false;
+                home1 = true;
+            } else if (tile === 94) {
+                enemyUpdate.length = 0;
+                this.doorWorld = false;
+                this.casa2 = true;
+                this.doorDungeon = false;
+                findHome = true;
+                home1 = false;
+            } else if (tile === 95) {
+                enemyUpdate.length = 0;
+                this.doorWorld = true;
+                this.casa2 = false;
+                this.doorDungeon = false;
+                findHome = false;
+                home1 = false;
             }
+            // }else if (tile === 94){
+            //     enemyUpdate.length = 0;
+            //     this.doorWorld = false;
+            //     this.casa1 = false;
+            //     this.casa2 = true;
+            //     this.doorDungeon = false;
+            //     // this.cntDungeon = true;
+            // } 
+            // else {
+            //     if (tile === 91) {
+            //         enemyUpdate.length = 0;
+            //         this.casa = true;
+            //         this.doorDungeon = false;
+            //         // this.cntDungeon = false;
+            //         mapRandon.createMapOn = true; //################## puertaaaaaaaaaaa
+            //         this.doorWorld = false;
+            //     } else if (tile === 92) {
+            //         enemyUpdate.length = 0;
+            //         this.doorWorld = true;
+            //         this.casa = true;
+            //         this.doorDungeon = false;// no se xq estaba en true+
+            //         this.cntDungeon = false;
+            //         findHome = true
+            //     }
+            // }
             let isSolid = tile < 30 && tile > 0 //tile === 3 || tile === 5; ################################################ is solid
             return res || isSolid;
-        }.bind(this), false); // .bind???? --------------------------------------------->
+        }.bind(this), false); //  --------------------------------------------->
     }
     getCol(x) {
         return Math.floor(x / mpTsizeWidth);
@@ -176,8 +208,6 @@ class Player {
 
     heroCollide(dirx, diry) {
         let row, col;
-        // -1 in right and bottom is because image ranges from 0..63
-        // and not up to 64
         let left = this.x - this.width / 2;
         let right = this.x + this.width / 2 - 1;
         let top = this.y - this.height / 2;
@@ -206,14 +236,6 @@ class Player {
             this.y += 0
             return;
         }
-        // collision = this.isSolidTileAtXY(left, bottom);
-        // if (collision) {
-        //     this.x += 0
-        //     this.y -= l
-        //     return;
-        // }
-
-
 
         if (diry > 0) {
             row = this.getRow(bottom);
@@ -236,23 +258,11 @@ class Player {
 
         this.x += dirX * this.heroSPEED * delta;
         this.y += dirY * this.heroSPEED * delta;
-
-        // check if we walked into a non-walkable tile
         this.heroCollide(dirX, dirY);
-
-        // clamp values
-
         this.x = Math.max(0, Math.min(this.x, this.maxX));
         this.y = Math.max(0, Math.min(this.y, this.maxY));
         xCartesian = this.x;
         yCartesian = this.y;
-        // console.log('col x: ' + this.getCol(this.x))
-        // console.log('col y: ' + this.getCol(this.y))
-        // let xCol = this.getCol(this.x);
-        // let yRow = this.getCol(this.y);
-        // xIsometric = xCol * mpTsizeWidth / 2 + yRow * mpTsizeWidth / 2 + offsetX;
-        // yIsometric = yRow * mpTsizeHeight / 2 - xCol * mpTsizeHeight / 2 + offsetY
-        // console.log(xIsometric)
     };
 
     cast() {
@@ -265,9 +275,6 @@ class Player {
                 heroAttributes.weapon.xOrigin = (screenX - mapTsize / 2);
                 heroAttributes.weapon.yOrigin = (screenY - mapTsize / 2);
             }
-            // setTimeout(() => {
-            //     castT()
-            // }, 500);
 
             if (heroAttributes.weapon.tTarget < 50) { // tiempo de la magia
                 heroAttributes.weapon.tTarget++

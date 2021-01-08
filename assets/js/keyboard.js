@@ -7,6 +7,7 @@ Keyboard.LEFT = 65; //37;
 Keyboard.RIGHT = 68; //39;
 Keyboard.UP = 87; //38;
 Keyboard.DOWN = 83; //40;
+Keyboard.INFO = 73;
 Keyboard.MENU1 = 80;
 Keyboard.BAG =  66;
 Keyboard.VIDA = 81;
