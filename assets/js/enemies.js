@@ -57,7 +57,6 @@ let enemiesArr = [{
     endAnimation: 0
 }, {
     type: 'mefisto',
-    // type: 'andariel',
     key: true,
     x: 0,
     y: 0,

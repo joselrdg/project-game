@@ -237,13 +237,15 @@ function collideMap(cols, rows) {
 
     let ranCasa = getRandomInt(0, 5) // para que aparezca la casa
     let puerta = 91;
-    if (!findHome && ranCasa === 1){
+    if (!findHome && ranCasa === 1) {
         puerta = 93
-    } 
-    if (!findHome && missions.mision2.finish && 
-        missions.mision3.Doors >= missions.mision3.totalDoors){
-        let ranCasa2 = getRandomInt(0, 2); // para que aparezca la entrada
-        if (ranCasa2 === 1){
+    }
+    console.log('puertas mision 3: '+missions.mision3.Doors)
+    if (!findHome && missions.mision2.finish &&
+        missions.mision3.Doors >= missions.mision3.totalDoors && 
+        !missions.mision9.downAgain) {
+        let ranCasa2 = 1 // getRandomInt(0, 3); // para que aparezca la entrada
+        if (ranCasa2 === 1) {
             puerta = 94;
         }
     }
@@ -529,13 +531,15 @@ function baseMap(cols, rows) {
         // }
 
     }
-    // mapRandon.layers[0][randO] = 31;
-    mapRandon.layers[0][(2 * cols) + 5] = 31;
-
+    if (missions.mision5.finish) {
+        // mapRandon.layers[0][randO] = 31;
+        mapRandon.layers[0][(2 * cols) + 5] = 31;
+    }
 }
 
 
 function mapDunFun(finalBoss) {
+    console.log('final boss ' +finalBoss)
     let maxCol = 52;
     let colRow = getRandomInt(13, maxCol) // tamaño mazmorra
     mapDungeon.cols = colRow;
@@ -550,10 +554,13 @@ function mapDunFun(finalBoss) {
         mapDungeon.layers[1].push(0);
         mapDungeon.layers[2].push(0);
     }
-    mapDungeon.layers[1][ran1] = 52
-    mapDungeon.layers[1][ran3] = 52
-    mapDungeon.layers[1][ran2] = 54
+    // mapDungeon.layers[1][ran1] = 52
+    // mapDungeon.layers[1][ran3] = 52
+    // mapDungeon.layers[1][ran2] = 54
     if (!finalBoss) {
+        let ranE = getRandomInt(0, colRow * colRow - 1)
+        mapDungeon.layers[0][ranE] = 31;
+        mapDungeon.layers[1][ranE] = 92;
         mapDungeon.layers[1][randO] = 55;
     } else {
         mapDungeon.layers[1][randO] = 56;

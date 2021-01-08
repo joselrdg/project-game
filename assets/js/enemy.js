@@ -13,7 +13,7 @@ class Enemy {
         // ];
 
 
-        this.portalMision = false;
+        // this.portalMision = false;
 
         this.dropKey = {
             keys: [1, 1, 1, 1],
@@ -252,16 +252,36 @@ class Enemy {
                         }
                     }
                     if (hold.health < 1) {
-                        heroAttributes.xp += cameraWidth / xpP;
-                        if (hold.type === 'mefisto' && hold.key === true) {
+                        if (!hold.die) {
+                            heroAttributes.xp += cameraWidth / xpP;
+                        }
+                        if (hold.type === 'mefisto') { //&& hold.key === true
+                            if (!missions.mision7.finish) {
+                                missions.mision7.Mefisto = true;
+                            }
+                            mapRandon.createMapOn = true;
                             this.dropKey.x = hold.x;
                             this.dropKey.y = hold.y;
-                            this.dropKey.cntKey++;
-                            this.dropKey.keys[this.dropKey.cntKey] = 0;
-                            this.dropKey.key = true;
+                            // this.dropKey.cntKey++;
+                            // this.dropKey.keys[this.dropKey.cntKey] = 0;
+                            // this.dropKey.key = true;
                             this.sounds.diemef.play()
-                            this.renderItem(hold.x, hold.y, 1) // mirarrarararararr
-                            this.portalMision = true;
+                            // this.renderItem(hold.x, hold.y, 1) // mirarrarararararr
+                            portalM = true;
+                            hold.sy = 8;
+                        } else if (hold.type === 'andariel') { // && hold.key === true
+                            console.log('murio andariel')
+                            if (!missions.mision8.finish) {
+                                missions.mision8.Andariel = true;
+                            }
+                            this.dropKey.x = hold.x;
+                            this.dropKey.y = hold.y;
+                            // this.dropKey.cntKey++;
+                            // this.dropKey.keys[this.dropKey.cntKey] = 0;
+                            // this.dropKey.key = true;
+                            this.sounds.diemef.play()
+                            // this.renderItem(hold.x, hold.y, 1) // mirarrarararararr
+                            portalM = true;
                             hold.sy = 8;
                         } else
                         if (hold.type === 'devil' || hold.type === 'boss2') {
@@ -271,16 +291,25 @@ class Enemy {
                                 missions.mision1.deadCreatures++;
                             } else if (hold.type === 'boss2' && !missions.mision2.finish &&
                                 missions.mision2.deadCreatures < missions.mision2.totalDeadCreatures &&
-                                !hold.dead){
-                                    missions.mision2.deadCreatures++;
-                                }
-                                hold.sy = 17;
+                                !hold.dead) {
+                                missions.mision2.deadCreatures++;
+                            } else if (!missions.mision4.finish &&
+                                missions.mision4.deadCreatures < missions.mision4.totalDeadCreatures &&
+                                !hold.dead) {
+                                missions.mision4.deadCreatures++;
+                            } else if (hold.type === 'boss2' && !missions.mision5.finish &&
+                                missions.mision5.deadCreatures < missions.mision5.totalDeadCreatures &&
+                                !hold.dead) {
+                                missions.mision5.deadCreatures++;
+                            }
+                            hold.sy = 17;
                             this.sounds.die.play()
                         } else {
                             hold.sy = 8;
                             this.sounds.die2.play()
                         }
-                        if (this.pushArticulos && timeFps === 0 && hold.dead) {
+                        if (this.pushArticulos && !hold.dead) {
+                            console.log('entro en item')
                             this.pushArticulos = false;
                             let ranArt = getRandomInt(0, 4) // probabilidad de que  caiga item
                             let ranG = 0

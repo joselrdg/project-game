@@ -17,7 +17,7 @@ const mapTsize = 64;
 const mpTsizeWidth = 64;
 const mpTsizeHeight = 64;
 
-let totalColsMap = 28;
+let totalColsMap = 64;
 // let colsMap = 13;
 // let rowsMap = 13;
 
@@ -37,10 +37,10 @@ let yIsometric = 0;
 let offsetX = 0;
 let offsetY = 0
 
-let ambientVol = 0;
-let fightVol = 0;
+let ambientVol = 0.1;
+let fightVol = 0.1;
 
-const delta = 1 / 60; // >> No está en uso, quitar del codigo o dejar 1/50
+const delta = 1 / 60; 
 const heroSPEED = 256;
 
 // const retrasoGolpe = 32;
@@ -49,9 +49,12 @@ let levelEnemy = 1;
 const timeEnemy = 10; // tiempo en borrar enemigos en min
 const collideEnemy = 16;
 
+const timeEnemyApar = 30
+
 let xpP = 1;
 let findHome = false;
-let home1 = true
+let home1 = true;
+let portalM = false;
 
 let enemyUpdate = [
   []
@@ -59,9 +62,9 @@ let enemyUpdate = [
 
 let heroAttributes = {
   level: 1,
-  healthTotal: 5000,
+  healthTotal: 50000,
   healthPercentage: 0,
-  health: 5000,
+  health: 50000,
   healthTime: 5,
   manaTotal: 100,
   manaPercentage: 0,
@@ -73,6 +76,7 @@ let heroAttributes = {
   armor: 100,
   xp: 1,
   gold: 0,
+  die: false,
   weapon: {
     shoot: false,
     restmana: 10,
@@ -102,35 +106,53 @@ let missions = {
     finish: false,
     target: 'If you manage to steal a key from a creature from the underworld, you will be closer to hell.',
     key1: false,
-    totalDeadCreatures: 1,
+    totalDeadCreatures: 3,
     deadCreatures: 0
   },
   mision3: {
     finish: false,
     target: 'If you want to go down to hell, you will have to find the entrance.',
     key1: false,
-    totalDoors: 1,
+    totalDoors: 3,
     Doors: 0
   },
   mision4: {
     finish: false,
-    target: 'By killing enough demonic creatures, you will attract the attention of more powerful demons.',
-    totalDeadCreatures: 1,
+    target: 'You already know how to attract the attention of more powerful demons.',
+    totalDeadCreatures: 6,
     deadCreatures: 0
   },
   mision5: {
     finish: false,
     target: 'The keys possessed by the strongest demons will take you deeper.',
     key2: false,
-    totalDeadCreatures: 1,
+    totalDeadCreatures: 3,
     deadCreatures: 0
   },
   mision6: {
     finish: false,
     target: 'You are getting closer to the bowels of hell, find a way to keep going down.',
     key1: false,
-    totalDeadCreatures: 1,
-    deadCreatures: 0
+    door: false
+  },
+  mision7: {
+    finish: false,
+    target: 'You seem to be good at killing hellish creatures. I doubt you are more powerful than Mephisto',
+    key3: false,
+    Mefisto: false
+  },
+  mision8: {
+    finish: false,
+    target: 'Looks like you have pissed Andariel off.',
+    key4: false,
+    Andariel: false
+  },
+  mision9: {
+    finish: false,
+    target: 'Do you think you can get hell? Run !!!',
+    downAgain: false,
+    totalDoors: 5,
+    Doors: 0
   }
 }
 

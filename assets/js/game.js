@@ -31,7 +31,7 @@ class Game {
         this.drrShot = 0;
         this.animatedShot = false;
 
-        this.portal = false;
+        // this.portal = false;
 
         this.digit = 1;
 
@@ -128,18 +128,19 @@ class Game {
     }
 
     draw() {
-        this.background.renderingMap(0, this.frameCount, this.portal, this.dungeonFire);
-        this.background.renderingMap(1, this.frameCount, this.portal, this.dungeonFire); /// esto estaba en el if de debajo
+        this.background.renderingMap(0, this.frameCount, this.dungeonFire);
+        this.background.renderingMap(1, this.frameCount, this.dungeonFire); /// esto estaba en el if de debajo
         this.player.renderPlayer(ctx, this.sxPlayer, this.syPlayer, )
         if (enemyUpdate.length > 0) {
             this.enemies.renderEnemy(this.sxEnemy)
         }
-        this.background.renderingMap(2, this.frameCount, this.portal, this.dungeonFire);
+        this.background.renderingMap(2, this.frameCount, this.dungeonFire);
         this.interfacePlayer.renderInterface(this.syIcon, heroAttributes.healthPercentage)
     }
 
     move() {
         if (heroAttributes.health > 1) {
+            this.xp();
             if (Keyboard.isDown(Keyboard.DIGIT1)) {
                 this.digit = 1;
             } else if (Keyboard.isDown(Keyboard.DIGIT2)) {
@@ -155,7 +156,7 @@ class Game {
             }
             if (Keyboard.isDown(Keyboard.VIDA)) {
                 if (heroAttributes.items.healthJar > 0 &&
-                    heroAttributes.healthTime === 5 &&
+                    heroAttributes.healthTime >= 5 &&
                     this.vidaTime) {
                     this.vidaTime = false;
                     heroAttributes.items.healthJar -= 1;
@@ -179,15 +180,16 @@ class Game {
                     heroAttributes.manaPercentage = 100 - (heroAttributes.mana * 100) / heroAttributes.manaTotal;
                 }
             }
+            console.log(heroAttributes.items.manaJar)
             if (heroAttributes.healthTime > 0 && timeFps === 0 && !this.vidaTime) {
                 heroAttributes.healthTime--
-            } else {
+            } else if (heroAttributes.healthTime <= 0) {
                 this.vidaTime = true;
                 heroAttributes.healthTime = 5;
             }
             if (heroAttributes.manaTime > 0 && timeFps === 0 && !this.manaaTime) {
                 heroAttributes.manaTime--
-            } else {
+            } else if (heroAttributes.manaTime <= 0) {
                 this.manaaTime = true
                 heroAttributes.manaTime = 5;
             }
@@ -240,9 +242,10 @@ class Game {
             }
             if (this.sxPlayer >= 17) {
                 this.sxPlayer = 17
-                setTimeout(() => {
-                    location.reload();
-                }, 3000);
+                heroAttributes.die = true;
+                // setTimeout(() => {
+                //     location.reload();
+                // }, 6000);
             }
             this.enemies.enemyMove(this.animatedShot, this.drrShot, heroAttributes.strength);
         }
@@ -258,12 +261,20 @@ class Game {
             }
             timeFps = 0;
         }
-        if (timeFps === 0 && // nacen enemigos cada 30ds
-            timeSeg === 0 ||
-            timeFps === 0 &&
-            timeSeg === 30) {
-            this.background.update = false;
+        // let timeEn = timeEnemy
+        if (missions.mision8.finish) {
+            if (timeFps === 0 ) {
+                this.background.update = false;
+            }
+        } else {
+            if (timeFps === 0 && // nacen enemigos
+                timeSeg === 0 ||
+                timeFps === 0 &&
+                timeSeg === timeEnemyApar) {
+                this.background.update = false;
+            }
         }
+
         this.frameCount++;
         if (this.frameCount % framesSprite === 0) {
             this.frameCount = 0;
@@ -307,28 +318,64 @@ class Game {
             mapHouse.layers[1][48] = 71;
             missions.mision2.finish = true;
             this.interfacePlayer.key1 = 0;
-        }
-        this.interfacePlayer.key2 = this.enemies.dropKey.keys[1];
-        this.interfacePlayer.key3 = this.enemies.dropKey.keys[2];
-        this.interfacePlayer.key4 = this.enemies.dropKey.keys[3];
-        if (this.enemies.dropKey.keys[3] === 0) {
+        } else if (!missions.mision4.finish &&
+            missions.mision4.deadCreatures >= missions.mision4.totalDeadCreatures) {
+            missions.mision4.finish = true;
+        } else if (!missions.mision5.finish &&
+            missions.mision5.deadCreatures >= missions.mision5.totalDeadCreatures) {
+            this.interfacePlayer.key2 = 0;
+            missions.mision5.finish = true;
+        } else if (!missions.mision6.finish &&
+            missions.mision6.door) {
+            missions.mision6.finish = true;
+        } else if (!missions.mision7.finish &&
+            missions.mision7.Mefisto) {
+            this.interfacePlayer.key3 = 0;
             this.finalBoss = true
+            missions.mision7.finish = true;
+        } else if (!missions.mision8.finish &&
+            missions.mision8.Andariel) {
+            this.interfacePlayer.key4 = 0;
+            missions.mision8.finish = true;
+            for (let i = 0; i < mapHouse.layers[1].length; i++) {
+                mapHouse.layers[1][i] = 71;
+            }
         }
-        this.portal = this.enemies.portalMision;
+        // this.interfacePlayer.key2 = this.enemies.dropKey.keys[1];
+        // this.interfacePlayer.key3 = this.enemies.dropKey.keys[2];
+        // this.interfacePlayer.key4 = this.enemies.dropKey.keys[3];
+        // if (this.enemies.dropKey.keys[3] === 0) {
+        //     this.finalBoss = true
+        // }
+        // this.portal = this.enemies.portalMision;
         let xP = 400;
         let yP = 400;
-        if (this.portal &&
+        if (portalM &&
             xCartesian < xP + 32 &&
             xCartesian > xP - 32 &&
             yCartesian < yP + 32 &&
-            yCartesian > yP - 32) {
-            enemyUpdate.length = 0;
+            yCartesian > yP - 32 &&
+            !missions.mision9.downAgain) {
+            findHome = true;
             this.player.casa2 = true;
+            enemyUpdate.length = 0;
             this.player.doorDungeon = false;
-            mapRandon.createMapOn = false; //################## puertaaaaaaaaaaa
+            mapRandon.createMapOn = true; //################## puertaaaaaaaaaaa
+            this.player.doorWorld = false;
+            enemiesArr[4].num = 1;
+        } else if (portalM &&
+            xCartesian < xP + 32 &&
+            xCartesian > xP - 32 &&
+            yCartesian < yP + 32 &&
+            yCartesian > yP - 32 &&
+            missions.mision9.downAgain) {
+            findHome = false;
+            this.player.casa2 = false;
+            enemyUpdate.length = 0;
+            this.player.doorDungeon = false;
+            mapRandon.createMapOn = true; //################## puertaaaaaaaaaaa
             this.player.doorWorld = true;
             enemiesArr[4].num = 1;
-            this.enemies.portalMision = false;
         }
     }
 
@@ -337,32 +384,46 @@ class Game {
         if (this.player.casa2) {
             this.infoM();
             let mapH = mapHouse
-            // if (missions.mision2.finish && !missions.mision3.finish) {
-            //     if (missions.mision3.doors < missions.mision3.totalDoors) {
-            //         missions.mision3.doors++
-            //     } else {
-            //         findHome = true;
-            //         missions.mision3.finish = true;
-            //     }
-            // }
+            let x = 100;
+            let y = 220;
+            if (missions.mision8.finish && !missions.mision9.downAgain) {
+                mapEntry.layers[1][0] = 71;
+                mapEntry.layers[1][13] = 62;
+                mapEntry.layers[1][14] = 71;
+                mapEntry.layers[1][26] = 61;
+                mapEntry.layers[1][27] = 71;
+                mapEntry.layers[1][39] = 71;
+                mapEntry.layers[1][40] = 71;
+                mapEntry.layers[1][52] = 71;
+                mapEntry.layers[1][53] = 71;
+            }
+            if (portalM) {
+                x = 400;
+                y = 400;
+                // this.portal = false;
+            }
+            portalM = false;
             if (findHome) {
-                if (missions.mision2.finish && !missions.mision3.finish) {
-                    missions.mision3.finish = true; 
-                }
                 mapH = mapEntry;
+                if (missions.mision2.finish && !missions.mision3.finish) {
+                    missions.mision3.finish = true;
+                }
+            }
+            if (missions.mision8.finish) {
+                missions.mision9.finish = true
             }
             this.background = new Background(this.ctx, mapH, 'casa')
-            this.player = new Player(mapH, 160, 250, this.canvas)
+            this.player = new Player(mapH, x, y, this.canvas)
             this.sounds.theme4.play()
             this.sounds.theme5.pause();
             this.sounds.theme5.currentTime = 0;
             this.player.doorWorld = false;
             this.player.doorDungeon = false;
         } else if (this.player.doorWorld) {
-            console.log('entro en player doorworld')
+            console.log('entro en doorworld')
             if (missions.mision2.finish && !missions.mision3.finish) {
-                if (missions.mision3.doors < missions.mision3.totalDoors) {
-                    missions.mision3.doors++
+                if (missions.mision3.Doors <= missions.mision3.totalDoors) {
+                    missions.mision3.Doors++
                 }
             }
             this.infoM();
@@ -589,6 +650,32 @@ class Game {
                 this.sxPlayer++
             }
         }
+        // }
+    }
+
+    xp() {
+        let xp = Math.round(heroAttributes.xp)
+        console.log('xp :' + xp)
+        // this.ctx.clearRect(0, cameraHeight - 5, cameraWidth, 5)
+        if (heroAttributes.xp > cameraWidth + 1) { // actualiza xp
+            heroAttributes.xp = 0
+            heroAttributes.level++
+            heroAttributes.healthTotal += 1000;
+            heroAttributes.health += 1000;
+            heroAttributes.mana += 10;
+            heroAttributes.strength += 10;
+            xpP++;
+            // this.cnt = true;
+            // setTimeout(() => {
+            //     this.cnt = false;
+            // }, 3000);
+        }
+        // this.ctx.clearRect(xp, cameraHeight - 5, cameraWidth, 5)
+        // if (this.cnt) {
+        //     this.ctxtextAlign = "center";
+        //     this.ctx.font = "30px Anton";
+        //     this.ctx.fillStyle = "#ff0000";
+        //     this.ctx.fillText("Player Up!!!", cameraWidth / 2 - 80, 50);
         // }
     }
     //     else {

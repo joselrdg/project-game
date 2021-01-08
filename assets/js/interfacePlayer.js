@@ -199,18 +199,37 @@ class InerfacePlayer {
                 this.bag()
             }
             this.misionI();
-            // this.xp()
+            this.xp()
             // this.drawBar()
             this.renderIcon(syIcon);
             this.renderflower()
             this.drawHealth(health);
             this.drawMana();
             this.renderGargola();
+            this.renderFinal();
             // if (heroAttributes.xp === 0) {
 
             // } 
         }
     }
+
+    renderFinal() {
+        if (heroAttributes.die) {
+            this.ctxtextAlign = "center";
+            this.ctx.font = "80px Anton";
+            this.ctx.fillStyle = "#d0d0d0";
+            this.ctx.fillText('GAME OVER', cameraWidth / 2 - 170, cameraHeight / 2);
+            setTimeout(() => {
+                location.reload();
+            }, 5000);
+            if (missions.mision8.finish) {
+                this.ctx.font = "30px Anton";
+                this.ctx.fillStyle = "red";
+                this.ctx.fillText('Did you think you could escape from hell?', cameraWidth / 2 - 245, cameraHeight / 2 - 100);
+            }
+        }
+    }
+
     misionI() {
         if (!missions.mision1.finish) {
             this.ctxtextAlign = "center";
@@ -233,6 +252,51 @@ class InerfacePlayer {
             this.ctx.fillText('Entry found:', 30, 80);
             this.ctx.fillStyle = "red";
             this.ctx.fillText(missions.mision3.key1, 140, 80)
+        } else if (!missions.mision4.finish) {
+            this.ctxtextAlign = "center";
+            this.ctx.font = "16px Anton";
+            this.ctx.fillStyle = "#d0d0d0";
+            this.ctx.fillText('Dead demons:', 30, 80);
+            this.ctx.fillStyle = "red";
+            this.ctx.fillText(missions.mision4.deadCreatures, 130, 80)
+        } else if (!missions.mision5.finish) {
+            this.ctxtextAlign = "center";
+            this.ctx.font = "16px Anton";
+            this.ctx.fillStyle = "#d0d0d0";
+            this.ctx.fillText('Underworld key:', 30, 80);
+            this.ctx.fillStyle = "red";
+            this.ctx.fillText(missions.mision5.key1, 140, 80)
+        } else if (!missions.mision6.finish) {
+            this.ctxtextAlign = "center";
+            this.ctx.font = "16px Anton";
+            this.ctx.fillStyle = "#d0d0d0";
+            this.ctx.fillText('Entry found:', 30, 80);
+            this.ctx.fillStyle = "red";
+            this.ctx.fillText(missions.mision6.key1, 140, 80)
+        } else if (!missions.mision7.finish) {
+            this.ctxtextAlign = "center";
+            this.ctx.font = "16px Anton";
+            this.ctx.fillStyle = "#d0d0d0";
+            this.ctx.fillText('kill Mephisto:', 30, 80);
+            this.ctx.fillStyle = "red";
+            this.ctx.fillText(missions.mision7.key3, 140, 80)
+        } else if (!missions.mision8.finish) {
+            this.ctxtextAlign = "center";
+            this.ctx.font = "16px Anton";
+            this.ctx.fillStyle = "#d0d0d0";
+            this.ctx.fillText('kill Andariel:', 30, 80);
+            this.ctx.fillStyle = "red";
+            this.ctx.fillText(missions.mision8.key4, 140, 80)
+        } else if (!missions.mision9.finish) {
+            this.ctxtextAlign = "center";
+            this.ctx.font = "16px Anton";
+            this.ctx.fillStyle = "red";
+            this.ctx.fillText('Go back home!!!', 140, 80)
+        } else if (missions.mision9.finish) {
+            this.ctxtextAlign = "center";
+            this.ctx.font = "16px Anton";
+            this.ctx.fillStyle = "red";
+            this.ctx.fillText('Winer', 140, 80)
         }
     }
 
@@ -244,6 +308,18 @@ class InerfacePlayer {
             task = missions.mision2.target;
         } else if (!missions.mision3.finish) {
             task = missions.mision3.target;
+        } else if (!missions.mision4.finish) {
+            task = missions.mision4.target;
+        } else if (!missions.mision5.finish) {
+            task = missions.mision5.target;
+        } else if (!missions.mision6.finish) {
+            task = missions.mision6.target;
+        } else if (!missions.mision7.finish) {
+            task = missions.mision7.target;
+        } else if (!missions.mision8.finish) {
+            task = missions.mision8.target;
+        } else if (!missions.mision9.finish) {
+            task = missions.mision9.target;
         }
         this.ctxtextAlign = "center";
         this.ctx.font = "16px Anton";
@@ -313,19 +389,18 @@ class InerfacePlayer {
 
     xp() {
         let xp = Math.round(heroAttributes.xp)
-        console.log(xp)
         this.ctx.fillStyle = "#ff0";
         this.ctx.rect(0, cameraHeight - 5, xp, 5);
         this.ctx.fill();
         if (heroAttributes.xp > cameraWidth + 1) { // actualiza xp
-            this.ctx.clearRect(0, cameraHeight - 5, cameraWidth, 5)
-            heroAttributes.level++
-            heroAttributes.healthTotal += 1000;
-            heroAttributes.health += 1000;
-            heroAttributes.mana += 10;
-            heroAttributes.strength += 10;
-            xpP += xpP;
-            heroAttributes.xp = 0
+            // this.ctx.clearRect(0, cameraHeight - 5, cameraWidth, 5)
+            // heroAttributes.level++
+            // heroAttributes.healthTotal += 1000;
+            // heroAttributes.health += 1000;
+            // heroAttributes.mana += 10;
+            // heroAttributes.strength += 10;
+            // xpP += xpP;
+            // heroAttributes.xp = 0
             this.cnt = true;
             setTimeout(() => {
                 this.cnt = false;
@@ -479,7 +554,6 @@ class InerfacePlayer {
     }
 
     // rest(r){
-    //     console.log(r)
     //     this.rest = r
     // }
 

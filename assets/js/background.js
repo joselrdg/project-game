@@ -110,7 +110,7 @@ class Background {
         return this.map.layers[layer][row * this.map.cols + col];
     }
 
-    renderingMap(layer, sx, portal, place) {
+    renderingMap(layer, sx, place) {
         if (sx === 0) {
             this.sxBack++
         }
@@ -208,7 +208,7 @@ class Background {
             }
             let xP = 300
             let yP = 300
-            if (portal) {
+            if (portalM) {
                 this.ctx.drawImage(
                     this.spritePortal,
                     sx * this.spritePortal.frameWidth,

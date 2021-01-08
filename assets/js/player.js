@@ -126,6 +126,10 @@ class Player {
             }
 
             if (tile === 91) {
+                if (missions.mision8.finish &&
+                    !missions.mision9.downAgain) {
+                    missions.mision9.downAgain = true;
+                }
                 enemyUpdate.length = 0;
                 this.casa2 = false;
                 home1 = false;
@@ -135,7 +139,11 @@ class Player {
                 mapRandon.createMapOn = true; //################## puertaaaaaaaaaaa
                 this.doorWorld = true;
             } else if (tile === 92) {
+                if (!missions.mision6.finish) {
+                    missions.mision6.door = true;
+                }
                 enemyUpdate.length = 0;
+                mapRandon.createMapOn = true;
                 this.doorWorld = false;
                 this.casa2 = false;
                 home1 = false;
@@ -149,6 +157,9 @@ class Player {
                 findHome = false;
                 home1 = true;
             } else if (tile === 94) {
+                // if (missions.mision3.finish){
+
+                // }
                 enemyUpdate.length = 0;
                 this.doorWorld = false;
                 this.casa2 = true;
