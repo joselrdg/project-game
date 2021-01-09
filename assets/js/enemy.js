@@ -134,6 +134,8 @@ class Enemy {
         die.volume = fightVol
         const die2 = new Audio('./assets/sound/die-creature.mp3')
         die2.volume = fightVol
+        const die3 = new Audio('./assets/sound/scream14.mp3')
+        die2.volume = fightVol
         const diemef = new Audio('./assets/sound/heidi-scream.wav')
         diemef.volume = fightVol
 
@@ -143,10 +145,9 @@ class Enemy {
             block: new Audio('./assets/sound/block.mp3'),
             die: new Audio('./assets/sound/demon-dying.wav'),
             diemef: new Audio('./assets/sound/die-creature.mp3'),
-            die2: new Audio('./assets/sound/heidi-scream.wav')
-
+            die2: new Audio('./assets/sound/heidi-scream.wav'),
+            die3
         }
-        // this.sounds.die2.play()
     }
 
     isReady() {
@@ -255,32 +256,24 @@ class Enemy {
                         if (!hold.die) {
                             heroAttributes.xp += cameraWidth / xpP;
                         }
-                        if (hold.type === 'mefisto') { //&& hold.key === true
+                        if (hold.type === 'mefisto') { 
                             if (!missions.mision7.finish) {
                                 missions.mision7.Mefisto = true;
                             }
                             mapRandon.createMapOn = true;
                             this.dropKey.x = hold.x;
                             this.dropKey.y = hold.y;
-                            // this.dropKey.cntKey++;
-                            // this.dropKey.keys[this.dropKey.cntKey] = 0;
-                            // this.dropKey.key = true;
                             this.sounds.diemef.play()
-                            // this.renderItem(hold.x, hold.y, 1) // mirarrarararararr
                             portalM = true;
                             hold.sy = 8;
-                        } else if (hold.type === 'andariel') { // && hold.key === true
-                            console.log('murio andariel')
+                        } else if (hold.type === 'andariel') { 
                             if (!missions.mision8.finish) {
                                 missions.mision8.Andariel = true;
                             }
                             this.dropKey.x = hold.x;
                             this.dropKey.y = hold.y;
-                            // this.dropKey.cntKey++;
-                            // this.dropKey.keys[this.dropKey.cntKey] = 0;
-                            // this.dropKey.key = true;
+                            this.sounds.die3.play()
                             this.sounds.diemef.play()
-                            // this.renderItem(hold.x, hold.y, 1) // mirarrarararararr
                             portalM = true;
                             hold.sy = 8;
                         } else
@@ -503,20 +496,16 @@ class Enemy {
 
 
     renderEnemy(sx) {
-        this.renderItem()
-        if (this.dropKey.key) {
-            // let ranx = this.dropKey.x;
-            // let rany = this.dropKey.y;
-            // // this.renderProfit(ranx, rany)
-            if (this.dropKey.x < xCartesian + 15 &&
-                this.dropKey.x > xCartesian - 15 && /// coge la llave
-                this.dropKey.y < yCartesian + 15 &&
-                this.dropKey.y > yCartesian - 15) {
-                this.dropKey.key = false;
-            }
-        }
+        // this.renderItem()
+        // if (this.dropKey.key) {
+        //     if (this.dropKey.x < xCartesian + 15 &&
+        //         this.dropKey.x > xCartesian - 15 && /// coge la llave
+        //         this.dropKey.y < yCartesian + 15 &&
+        //         this.dropKey.y > yCartesian - 15) {
+        //         this.dropKey.key = false;
+        //     }
+        // }
 
-        // let sxt = sx;
         let sxt = sx;
         let syt = 0;
         let Width = 64;

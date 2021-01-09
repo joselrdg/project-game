@@ -17,7 +17,7 @@ const mapTsize = 64;
 const mpTsizeWidth = 64;
 const mpTsizeHeight = 64;
 
-let totalColsMap = 64;
+let totalColsMap = 320;
 // let colsMap = 13;
 // let rowsMap = 13;
 
@@ -37,10 +37,10 @@ let yIsometric = 0;
 let offsetX = 0;
 let offsetY = 0
 
-let ambientVol = 0.1;
-let fightVol = 0.1;
+let ambientVol = 0.4;
+let fightVol = ambientVol;
 
-const delta = 1 / 60; 
+const delta = 1 / 60;
 const heroSPEED = 256;
 
 // const retrasoGolpe = 32;
@@ -62,19 +62,19 @@ let enemyUpdate = [
 
 let heroAttributes = {
   level: 1,
-  healthTotal: 50000,
+  healthTotal: 100000,
   healthPercentage: 0,
-  health: 50000,
+  health: 100000,
   healthTime: 5,
   manaTotal: 100,
   manaPercentage: 0,
-  mana: 100,
+  mana: 50,
   manaTime: 5,
-  strength: 100,
+  strength: 50,
   dexterrity: 123,
   intelligent: 111,
   armor: 100,
-  xp: 1,
+  xp: 0,
   gold: 0,
   die: false,
   weapon: {
@@ -99,7 +99,7 @@ let missions = {
   mision1: {
     finish: false,
     target: 'By killing enough demonic creatures, you will attract the attention of more powerful demons.',
-    totalDeadCreatures: 6,
+    totalDeadCreatures: 30,
     deadCreatures: 0
   },
   mision2: {
@@ -113,20 +113,20 @@ let missions = {
     finish: false,
     target: 'If you want to go down to hell, you will have to find the entrance.',
     key1: false,
-    totalDoors: 3,
+    totalDoors: 7,
     Doors: 0
   },
   mision4: {
     finish: false,
     target: 'You already know how to attract the attention of more powerful demons.',
-    totalDeadCreatures: 6,
+    totalDeadCreatures: 40,
     deadCreatures: 0
   },
   mision5: {
     finish: false,
     target: 'The keys possessed by the strongest demons will take you deeper.',
     key2: false,
-    totalDeadCreatures: 3,
+    totalDeadCreatures: 5,
     deadCreatures: 0
   },
   mision6: {
@@ -151,7 +151,7 @@ let missions = {
     finish: false,
     target: 'Do you think you can get hell? Run !!!',
     downAgain: false,
-    totalDoors: 5,
+    totalDoors: 10,
     Doors: 0
   }
 }

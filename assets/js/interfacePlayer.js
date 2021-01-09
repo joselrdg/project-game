@@ -21,7 +21,6 @@ class InerfacePlayer {
         this.b = false;
 
         this.rest = 0;
-        // this.xpP = 10;
         this.syEnter = 0;
 
         this.spriteEnter = new Image()
@@ -49,8 +48,6 @@ class InerfacePlayer {
             this.sprite.isReady = true
             this.sprite.frameWidth = Math.floor(this.sprite.width / this.sprite.horizontalFrames)
             this.sprite.frameHeight = Math.floor(this.sprite.height / this.sprite.verticalFrames)
-            // this.spriteWidth = this.sprite.frameWidth
-            // this.spriteHeight = this.sprite.frameHeight
         }
         this.xFlor = 0;
         this.spriteFlower = new Image()
@@ -94,26 +91,18 @@ class InerfacePlayer {
         this.spriteMenu1 = new Image()
         this.spriteMenu1.src = './assets/img/menu1.png';
         this.spriteMenu1.isReady = false
-        // this.spriteMenu1.horizontalFrames = 1;
-        // this.spriteMenu1.verticalFrames = 1;
         this.spriteMenu1.horizontalFrameIndex = 0
         this.spriteMenu1.verticalFrameIndex = 0
         this.spriteMenu1.onload = () => {
             this.spriteMenu1.isReady = true
-            // this.spriteMenu1.frameWidth = Math.floor(this.spriteMenu1.width / this.spriteMenu1.horizontalFrames)
-            // this.spriteMenu1.frameHeight = Math.floor(this.spriteMenu1.height / this.spriteMenu1.verticalFrames)
         }
         this.spriteBag = new Image()
         this.spriteBag.src = './assets/img/bag.png';
         this.spriteBag.isReady = false
-        // this.spriteMenu1.horizontalFrames = 1;
-        // this.spriteMenu1.verticalFrames = 1;
         this.spriteBag.horizontalFrameIndex = 0
         this.spriteBag.verticalFrameIndex = 0
         this.spriteBag.onload = () => {
             this.spriteBag.isReady = true
-            // this.spriteMenu1.frameWidth = Math.floor(this.spriteMenu1.width / this.spriteMenu1.horizontalFrames)
-            // this.spriteMenu1.frameHeight = Math.floor(this.spriteMenu1.height / this.spriteMenu1.verticalFrames)
         }
     }
 
@@ -186,8 +175,6 @@ class InerfacePlayer {
                 }
             }
         } else {
-            // this.ctx.fillStyle = "#000";
-            // this.ctx.fillRect(this.x, this.y, this.whidth, this.heigth);
             this.renderKeys();
             if (this.i) {
                 this.mision()
@@ -199,17 +186,13 @@ class InerfacePlayer {
                 this.bag()
             }
             this.misionI();
-            this.xp()
-            // this.drawBar()
+            // this.xp()
             this.renderIcon(syIcon);
             this.renderflower()
             this.drawHealth(health);
             this.drawMana();
             this.renderGargola();
             this.renderFinal();
-            // if (heroAttributes.xp === 0) {
-
-            // } 
         }
     }
 
@@ -221,7 +204,7 @@ class InerfacePlayer {
             this.ctx.fillText('GAME OVER', cameraWidth / 2 - 170, cameraHeight / 2);
             setTimeout(() => {
                 location.reload();
-            }, 5000);
+            }, 110000);
             if (missions.mision8.finish) {
                 this.ctx.font = "30px Anton";
                 this.ctx.fillStyle = "red";
@@ -251,7 +234,7 @@ class InerfacePlayer {
             this.ctx.fillStyle = "#d0d0d0";
             this.ctx.fillText('Entry found:', 30, 80);
             this.ctx.fillStyle = "red";
-            this.ctx.fillText(missions.mision3.key1, 140, 80)
+            this.ctx.fillText(missions.mision3.key1, 110, 80)
         } else if (!missions.mision4.finish) {
             this.ctxtextAlign = "center";
             this.ctx.font = "16px Anton";
@@ -265,7 +248,7 @@ class InerfacePlayer {
             this.ctx.fillStyle = "#d0d0d0";
             this.ctx.fillText('Underworld key:', 30, 80);
             this.ctx.fillStyle = "red";
-            this.ctx.fillText(missions.mision5.key1, 140, 80)
+            this.ctx.fillText(missions.mision5.key2, 140, 80)
         } else if (!missions.mision6.finish) {
             this.ctxtextAlign = "center";
             this.ctx.font = "16px Anton";
@@ -286,7 +269,7 @@ class InerfacePlayer {
             this.ctx.fillStyle = "#d0d0d0";
             this.ctx.fillText('kill Andariel:', 30, 80);
             this.ctx.fillStyle = "red";
-            this.ctx.fillText(missions.mision8.key4, 140, 80)
+            this.ctx.fillText(missions.mision8.key3, 140, 80)
         } else if (!missions.mision9.finish) {
             this.ctxtextAlign = "center";
             this.ctx.font = "16px Anton";
@@ -324,7 +307,7 @@ class InerfacePlayer {
         this.ctxtextAlign = "center";
         this.ctx.font = "16px Anton";
         this.ctx.fillStyle = "#d0d0d0";
-        this.ctx.fillText(task, 30, cameraHeight - 110);
+        this.ctx.fillText(task, 30, 110);
     }
 
     bag() {
@@ -387,33 +370,25 @@ class InerfacePlayer {
         this.ctx.fillText(heroAttributes.gold, cameraWidth / 2 - 200, this.spriteMenu1.height - 98);
     }
 
-    xp() {
-        let xp = Math.round(heroAttributes.xp)
-        this.ctx.fillStyle = "#ff0";
-        this.ctx.rect(0, cameraHeight - 5, xp, 5);
-        this.ctx.fill();
-        if (heroAttributes.xp > cameraWidth + 1) { // actualiza xp
-            // this.ctx.clearRect(0, cameraHeight - 5, cameraWidth, 5)
-            // heroAttributes.level++
-            // heroAttributes.healthTotal += 1000;
-            // heroAttributes.health += 1000;
-            // heroAttributes.mana += 10;
-            // heroAttributes.strength += 10;
-            // xpP += xpP;
-            // heroAttributes.xp = 0
-            this.cnt = true;
-            setTimeout(() => {
-                this.cnt = false;
-            }, 3000);
-        }
-        // this.ctx.clearRect(xp, cameraHeight - 5, cameraWidth, 5)
-        if (this.cnt) {
-            this.ctxtextAlign = "center";
-            this.ctx.font = "30px Anton";
-            this.ctx.fillStyle = "#ff0000";
-            this.ctx.fillText("Player Up!!!", cameraWidth / 2 - 80, 50);
-        }
-    }
+    // xp() {
+    //     let xp = Math.round(heroAttributes.xp)
+    //     this.ctx.fillStyle = "#ff0";
+    //     this.ctx.rect(0, cameraHeight - 5, xp, 5);
+    //     this.ctx.fill();
+    //     if (heroAttributes.xp > cameraWidth + 1) { // actualiza xp
+    //                   this.cnt = true;
+    //         setTimeout(() => {
+    //             this.cnt = false;
+    //         }, 3000);
+    //     }
+    //     // this.ctx.clearRect(xp, cameraHeight - 5, cameraWidth, 5)
+    //     if (this.cnt) {
+    //         this.ctxtextAlign = "center";
+    //         this.ctx.font = "30px Anton";
+    //         this.ctx.fillStyle = "#ff0000";
+    //         this.ctx.fillText("Player Up!!!", cameraWidth / 2 - 80, 50);
+    //     }
+    // }
 
     renderIcon(syIcon) {
         if (this.isReady()) {
@@ -430,10 +405,10 @@ class InerfacePlayer {
             ctx.drawImage(
                 this.spriteItems,
                 0,
-                1 * this.spriteItems.frameHeight,
+                2 * this.spriteItems.frameHeight,
                 this.spriteItems.frameWidth,
                 this.spriteItems.frameHeight,
-                15,
+                20,
                 10,
                 this.spriteItems.frameWidth,
                 this.spriteItems.frameHeight
@@ -441,7 +416,7 @@ class InerfacePlayer {
             ctx.drawImage(
                 this.spriteItems,
                 0,
-                2 * this.spriteItems.frameHeight,
+                1 * this.spriteItems.frameHeight,
                 this.spriteItems.frameWidth,
                 this.spriteItems.frameHeight,
                 100,
@@ -453,12 +428,12 @@ class InerfacePlayer {
                 this.ctxtextAlign = "center";
                 this.ctx.font = "15px Anton";
                 this.ctx.fillStyle = "red";
-                this.ctx.fillText(heroAttributes.healthTime, 60, 33);
+                this.ctx.fillText(heroAttributes.healthTime, 65, 33);
             } else {
                 this.ctxtextAlign = "center";
                 this.ctx.font = "15px Anton";
                 this.ctx.fillStyle = "#d0d0d0";
-                this.ctx.fillText(heroAttributes.items.manaJar, 60, 33);
+                this.ctx.fillText(heroAttributes.items.healthJar, 65, 33);
             }
             if (heroAttributes.manaTime < 5) {
                 this.ctxtextAlign = "center";
@@ -469,7 +444,7 @@ class InerfacePlayer {
                 this.ctxtextAlign = "center";
                 this.ctx.font = "15px Anton";
                 this.ctx.fillStyle = "#d0d0d0";
-                this.ctx.fillText(heroAttributes.items.healthJar, 145, 33);
+                this.ctx.fillText(heroAttributes.items.manaJar, 145, 33);
             }
         }
 

@@ -3,6 +3,8 @@ class Game {
         this.ctx = ctx;
         this.canvas = canvas;
 
+        this.liveBar = document.getElementById("livebar")
+
         this.interfacePlayer = new InerfacePlayer(this.ctx, 0, cameraHeight, canvasWidth, canvasHeight - cameraHeight)
         this.background = new Background(this.ctx, mapHouse, 'casa')
         this.player = new Player(mapHouse, 400, 400, this.canvas) // x e y -------------> 
@@ -42,19 +44,22 @@ class Game {
 
         const theme = new Audio('./assets/sound/LordMavras.ogg')
         theme.volume = ambientVol;
-        theme.volume.loop
+        theme.loop
         const theme2 = new Audio('./assets/sound/biggestDiscovery.ogg')
         theme2.volume = ambientVol
-        theme2.volume.loop
+        theme2.loop
         const theme3 = new Audio('./assets/sound/malignChords.ogg')
         theme3.volume = ambientVol
-        theme3.volume.loop
+        theme3.loop
         const theme4 = new Audio('./assets/sound/ninthCrewman.ogg')
         theme4.volume = ambientVol
-        theme4.volume.loop
+        theme4.loop
         const theme5 = new Audio('./assets/sound/playDemon.ogg')
         theme5.volume = ambientVol
-        theme5.volume.loop
+        theme5.loop
+        const drink = new Audio('./assets/sound/drinking-woman.wav')
+        // theme5.volume = 0.2
+        theme5.loop
 
         this.sounds = {
             theme,
@@ -62,7 +67,7 @@ class Game {
             theme3,
             theme4,
             theme5,
-            coin: new Audio('./assets/sound/coin.wav')
+            drink
         }
     }
 
@@ -158,6 +163,7 @@ class Game {
                 if (heroAttributes.items.healthJar > 0 &&
                     heroAttributes.healthTime >= 5 &&
                     this.vidaTime) {
+                    this.sounds.drink.play()
                     this.vidaTime = false;
                     heroAttributes.items.healthJar -= 1;
                     heroAttributes.health += 1000;
@@ -171,6 +177,7 @@ class Game {
                 if (heroAttributes.items.manaJar > 0 &&
                     heroAttributes.manaTime === 5 &&
                     this.manaaTime) {
+                    this.sounds.drink.play()
                     this.manaaTime = false;
                     heroAttributes.items.manaJar -= 1;
                     heroAttributes.mana += 100;
@@ -180,7 +187,6 @@ class Game {
                     heroAttributes.manaPercentage = 100 - (heroAttributes.mana * 100) / heroAttributes.manaTotal;
                 }
             }
-            console.log(heroAttributes.items.manaJar)
             if (heroAttributes.healthTime > 0 && timeFps === 0 && !this.vidaTime) {
                 heroAttributes.healthTime--
             } else if (heroAttributes.healthTime <= 0) {
@@ -194,7 +200,6 @@ class Game {
                 heroAttributes.manaTime = 5;
             }
 
-            // handle hero
             let dirx = 0;
             let diry = 0;
             if (Keyboard.isDown(Keyboard.UP) && Keyboard.isDown(Keyboard.LEFT)) {
@@ -236,16 +241,12 @@ class Game {
         } else {
             if (this.sxPlayer < 9) {
                 this.sxPlayer = 8;
-                // this.animatedShot = true
             } else if (!this.animatedShot) {
                 this.sxPlayer = 17
             }
             if (this.sxPlayer >= 17) {
                 this.sxPlayer = 17
                 heroAttributes.die = true;
-                // setTimeout(() => {
-                //     location.reload();
-                // }, 6000);
             }
             this.enemies.enemyMove(this.animatedShot, this.drrShot, heroAttributes.strength);
         }
@@ -257,13 +258,11 @@ class Game {
             timeSeg++;
             if (timeSeg === 20) {
                 timeSeg = 0;
-                // timeMin++;
             }
             timeFps = 0;
         }
-        // let timeEn = timeEnemy
         if (missions.mision8.finish) {
-            if (timeFps === 0 ) {
+            if (timeFps === 0) {
                 this.background.update = false;
             }
         } else {
@@ -279,7 +278,6 @@ class Game {
         if (this.frameCount % framesSprite === 0) {
             this.frameCount = 0;
         }
-        // if (this.canvas) {
         if (Keyboard.isDown(Keyboard.LEFT) ||
             Keyboard.isDown(Keyboard.RIGHT) ||
             Keyboard.isDown(Keyboard.UP) ||
@@ -341,13 +339,6 @@ class Game {
                 mapHouse.layers[1][i] = 71;
             }
         }
-        // this.interfacePlayer.key2 = this.enemies.dropKey.keys[1];
-        // this.interfacePlayer.key3 = this.enemies.dropKey.keys[2];
-        // this.interfacePlayer.key4 = this.enemies.dropKey.keys[3];
-        // if (this.enemies.dropKey.keys[3] === 0) {
-        //     this.finalBoss = true
-        // }
-        // this.portal = this.enemies.portalMision;
         let xP = 400;
         let yP = 400;
         if (portalM &&
@@ -360,7 +351,7 @@ class Game {
             this.player.casa2 = true;
             enemyUpdate.length = 0;
             this.player.doorDungeon = false;
-            mapRandon.createMapOn = true; //################## puertaaaaaaaaaaa
+            mapRandon.createMapOn = true; //################## portal
             this.player.doorWorld = false;
             enemiesArr[4].num = 1;
         } else if (portalM &&
@@ -373,14 +364,13 @@ class Game {
             this.player.casa2 = false;
             enemyUpdate.length = 0;
             this.player.doorDungeon = false;
-            mapRandon.createMapOn = true; //################## puertaaaaaaaaaaa
+            mapRandon.createMapOn = true;
             this.player.doorWorld = true;
             enemiesArr[4].num = 1;
         }
     }
 
     mapControl() {
-        // if (heroAttributes.health<)
         if (this.player.casa2) {
             this.infoM();
             let mapH = mapHouse
@@ -414,13 +404,18 @@ class Game {
             }
             this.background = new Background(this.ctx, mapH, 'casa')
             this.player = new Player(mapH, x, y, this.canvas)
-            this.sounds.theme4.play()
-            this.sounds.theme5.pause();
-            this.sounds.theme5.currentTime = 0;
+            if (missions.mision7.finish) {
+                this.sounds.theme5.play()
+                this.sounds.theme.pause();
+                this.sounds.theme.currentTime = 0;
+            } else {
+                this.sounds.theme4.play()
+                this.sounds.theme5.pause();
+                this.sounds.theme5.currentTime = 0;
+            }
             this.player.doorWorld = false;
             this.player.doorDungeon = false;
         } else if (this.player.doorWorld) {
-            console.log('entro en doorworld')
             if (missions.mision2.finish && !missions.mision3.finish) {
                 if (missions.mision3.Doors <= missions.mision3.totalDoors) {
                     missions.mision3.Doors++
@@ -428,23 +423,24 @@ class Game {
             }
             this.infoM();
             let mundo = 'casa'
-            if (findHome) {
+            if (findHome && !missions.mision7.finish) {
                 mundo = 'world';
+                this.sounds.theme.play()
+                this.sounds.theme4.pause();
+                this.sounds.theme4.currentTime = 0;
+            } else if (!missions.mision7.finish) {
+                this.sounds.theme4.play()
+            } else {
+                this.sounds.theme5.play()
+                this.sounds.theme.pause();
+                this.sounds.theme.currentTime = 0;
             }
-            // if (!findHome) {
-            //     this.player.casa1 = true;
-            // }
-            // this.player.casa1 = false;
             let maxRan = mapRandon.cols * mpTsizeWidth
             let x = getRandomInt(1, maxRan)
             let y = getRandomInt(1, maxRan)
             this.background = new Background(this.ctx, mapRandon, mundo) //######### donde nace
             this.player = new Player(mapRandon, 160, 160);
-            this.sounds.theme.play()
-            this.sounds.theme4.pause();
-            this.sounds.theme4.currentTime = 0;
             this.player.casa2 = false;
-            // this.currentMap = mapRandon;
         } else if (this.player.doorDungeon) {
             this.infoM();
             // this.player.casa1 = false;
@@ -454,15 +450,7 @@ class Game {
             this.sounds.theme5.play()
             this.sounds.theme.pause();
             this.sounds.theme.currentTime = 0;
-            // this.player.doorWorld = false;
-            // this.currentMap = mapDungeon;
-
         }
-
-        // level() {
-        //     if (cntLevel === 0 && !this.loaded) {
-        //         this.loaded = true;
-        //     }
     }
 
     infoM() {
@@ -473,15 +461,8 @@ class Game {
     }
 
     playerShot(digit) {
-        // if (heroAttributes.health > 0) {
-
         if (heroAttributes.health > 0) {
             let x, y = 0;
-            // if (heroAttributes.weapon.tTarget === 1) {
-            //     heroAttributes.mana -= heroAttributes.weapon.restmana;
-            //     heroAttributes.manaPercentage += (heroAttributes.weapon.restmana * 100) / heroAttributes.manaTotal;
-            //     this.interfacePlayer.rest = heroAttributes.manaPercentage;
-            // }
             if (this.digit === 1) {
                 this.syIcon = 0
             } else if (this.digit === 2) {
@@ -568,72 +549,54 @@ class Game {
                         //     this.syPlayer = 9}
                     } else if (this.digit === 3 &&
                         !heroAttributes.weapon.shoot) {
-
-                        // let updateRelease = function updateSpell(drrTarget) {
-                        //     heroAttributes.weapon.drrTarget = this.drrShot;
-                        // heroAttributes.weapon.xOrigin = (screenX-mapTsize/2);
-                        // heroAttributes.weapon.yOrigin = (screenY-mapTsize/2);
                         heroAttributes.weapon.xTarget = x;
                         heroAttributes.weapon.yTarget = y;
-                        // this.interfacePlayer.rest(heroAttributes.weapon.rest);
                         if (heroAttributes.mana > 1) {
                             setTimeout(() => {
                                 heroAttributes.weapon.shoot = true;
                             }, 500);
-                            // }
-                            // heroAttributes.weapon.shoot = true;
                         }
                         if (screenX > x && screenY > y) {
                             this.syPlayer = 36;
                             this.drrShot = 7; // superior izq.
                             heroAttributes.weapon.drrTarget = this.drrShot;
-                            // updateRelease(this.drrShot);
                         }
                         if (screenX < x && screenY < y) {
                             this.syPlayer = 40;
                             this.drrShot = 3; // inferior drch
                             heroAttributes.weapon.drrTarget = this.drrShot;
-                            // updateRelease(this.drrShot);
                         }
                         if (screenX < x && screenY > y) {
                             this.syPlayer = 38;
                             this.drrShot = 1; // superior drch
                             heroAttributes.weapon.drrTarget = this.drrShot;
-                            // updateRelease(this.drrShot);
                         }
                         if (screenX > x && screenY < y) {
                             this.syPlayer = 34; // iferior izq
                             this.drrShot = 5;
                             heroAttributes.weapon.drrTarget = this.drrShot;
-                            // updateRelease(this.drrShot);
                         }
                         if (screenX > x && screenY < y + mapTsize / 2 && screenY > y - mapTsize / 2) {
                             this.syPlayer = 35;
                             this.drrShot = 6; // izq
                             heroAttributes.weapon.drrTarget = this.drrShot;
-                            // updateRelease(this.drrShot);
                         }
                         if (screenX < x && screenY < y + mapTsize / 2 && screenY > y - mapTsize / 2) {
                             this.syPlayer = 39;
                             this.drrShot = 2; // drch
                             heroAttributes.weapon.drrTarget = this.drrShot;
-                            // updateRelease(this.drrShot);
                         }
 
                         if (screenY < y && screenX < x + mapTsize / 2 && screenX > x - mapTsize / 2) {
                             this.syPlayer = 33; //inferior
                             this.drrShot = 4;
                             heroAttributes.weapon.drrTarget = this.drrShot;
-                            // updateRelease(this.drrShot);
                         }
                         if (screenY > y && screenX < x + mapTsize / 2 && screenX > x - mapTsize / 2) {
                             this.syPlayer = 37;
                             this.drrShot = 0; // superior
                             heroAttributes.weapon.drrTarget = this.drrShot;
-                            // updateRelease(this.drrShot);
                         }
-                        //    if (screenX > x ){
-                        //     this.syPlayer = 9}
                     }
                     this.animatedShot = true;
                     this.sxPlayer = 0
@@ -650,45 +613,22 @@ class Game {
                 this.sxPlayer++
             }
         }
-        // }
     }
 
     xp() {
         let xp = Math.round(heroAttributes.xp)
-        console.log('xp :' + xp)
-        // this.ctx.clearRect(0, cameraHeight - 5, cameraWidth, 5)
-        if (heroAttributes.xp > cameraWidth + 1) { // actualiza xp
+        xp = xp.toString()
+        xp += 'px'
+        this.liveBar.style.width = xp;
+        if (heroAttributes.xp >= cameraWidth) { // actualiza xp
             heroAttributes.xp = 0
             heroAttributes.level++
-            heroAttributes.healthTotal += 1000;
-            heroAttributes.health += 1000;
-            heroAttributes.mana += 10;
+            heroAttributes.healthTotal += 50;
+            heroAttributes.health = heroAttributes.healthTotal;
+            heroAttributes.manaTotal += 5;
+            heroAttributes.mana = heroAttributes.manaTotal;
             heroAttributes.strength += 10;
-            xpP++;
-            // this.cnt = true;
-            // setTimeout(() => {
-            //     this.cnt = false;
-            // }, 3000);
+            xpP += xpP;
         }
-        // this.ctx.clearRect(xp, cameraHeight - 5, cameraWidth, 5)
-        // if (this.cnt) {
-        //     this.ctxtextAlign = "center";
-        //     this.ctx.font = "30px Anton";
-        //     this.ctx.fillStyle = "#ff0000";
-        //     this.ctx.fillText("Player Up!!!", cameraWidth / 2 - 80, 50);
-        // }
     }
-    //     else {
-    //         if (this.animatedShot) {
-    //             this.sxPlayer = 9
-    //             if (this.sxPlayer > 19) {
-    //                 this.sxPlayer = 0
-    //                 this.animatedShot = false
-    //             }
-    //             if (this.frameCount === 0) {
-    //                 this.sxPlayer++
-    //             }
-    //         }
-    //     }
-    // }
 }

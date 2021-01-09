@@ -1,7 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Rock+Salt&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap'); */
+/* @import url('https://fonts.googleapis.com/css2?family=Rock+Salt&display=swap'); */
 /* Rock Salt */
-@import url('https://fonts.googleapis.com/css2?family=Hanalei+Fill&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Hanalei+Fill&display=swap'); */
 /* Hanalei Fill */
 @import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
 /* Anton */
@@ -21,4 +21,12 @@ canvas {
     padding: 0;
     margin: auto;
     display: block;
+}
+
+#livebar {
+    background-color: red;
+    height: 9px;
+    position: absolute;
+    top: 0;
+    left: 507px;
 }

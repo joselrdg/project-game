@@ -326,12 +326,12 @@ class Background {
             }
 
 
-            if (enemyUpdate[index][i].type === 'mefisto') { //##########pone llave la llave
-                let ran = getRandomInt(1, 3)
-                if (ran === 1) {}
-                enemyUpdate[index][i].key = true;
-                enemiesArr[4].num = 0;
-            }
+            // if (enemyUpdate[index][i].type === 'mefisto') { //##########pone llave la llave
+            //     let ran = getRandomInt(1, 3)
+            //     if (ran === 1) {}
+            //     enemyUpdate[index][i].key = true;
+            //     // enemiesArr[4].num = 0;
+            // }
         }
     }
 

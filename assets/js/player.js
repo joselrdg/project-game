@@ -61,11 +61,14 @@ class Player {
         die.volume = fightVol
         const defeated = new Audio('./assets/sound/player-defeated.wav')
         defeated.volume = fightVol
+        const evilLaug = new Audio('./assets/sound/evillaughin.mp3')
+        evilLaug.volume = fightVol
 
         this.sounds = {
             scream,
             die,
-            defeated
+            defeated,
+            evilLaug
         }
     }
 
@@ -97,6 +100,7 @@ class Player {
             }
             if (heroAttributes.health < 1) {
                 this.sounds.die.play()
+                this.sounds.evilLaug.play()
             }
         }
 
