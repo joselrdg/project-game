@@ -64,13 +64,13 @@ let heroAttributes = {
   level: 1,
   healthTotal: 120,
   healthPercentage: 0,
-  health: 100,
+  health: 10000,
   healthTime: 5,
-  manaTotal: 100,
+  manaTotal: 10000,
   manaPercentage: 0,
   mana: 50,
   manaTime: 5,
-  strength: 50,
+  strength: 100,
   dexterrity: 123,
   intelligent: 111,
   armor: 100,
@@ -99,21 +99,21 @@ let missions = {
   mision1: {
     finish: false,
     target: 'By killing enough demonic creatures, you will attract the attention of more powerful demons.',
-    totalDeadCreatures: 30,
+    totalDeadCreatures: 20,
     deadCreatures: 0
   },
   mision2: {
     finish: false,
     target: 'If you manage to steal a key from a creature from the underworld, you will be closer to hell.',
     key1: false,
-    totalDeadCreatures: 3,
+    totalDeadCreatures: 2,
     deadCreatures: 0
   },
   mision3: {
     finish: false,
     target: 'If you want to go down to hell, you will have to find the entrance.',
     key1: false,
-    totalDoors: 7,
+    totalDoors: 4,
     Doors: 0
   },
   mision4: {
@@ -126,7 +126,7 @@ let missions = {
     finish: false,
     target: 'The keys possessed by the strongest demons will take you deeper.',
     key2: false,
-    totalDeadCreatures: 5,
+    totalDeadCreatures: 2,
     deadCreatures: 0
   },
   mision6: {
