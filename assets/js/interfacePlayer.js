@@ -197,14 +197,14 @@ class InerfacePlayer {
     }
 
     renderFinal() {
-        if (heroAttributes.die) {
+        if (heroAttributes.die || heroAttributes.health < 1) {
             this.ctxtextAlign = "center";
             this.ctx.font = "80px Anton";
             this.ctx.fillStyle = "#d0d0d0";
             this.ctx.fillText('GAME OVER', cameraWidth / 2 - 170, cameraHeight / 2);
             setTimeout(() => {
                 location.reload();
-            }, 110000);
+            }, 6000);
             if (missions.mision8.finish) {
                 this.ctx.font = "30px Anton";
                 this.ctx.fillStyle = "red";
@@ -276,10 +276,10 @@ class InerfacePlayer {
             this.ctx.fillStyle = "red";
             this.ctx.fillText('Go back home!!!', 140, 80)
         } else if (missions.mision9.finish) {
-            this.ctxtextAlign = "center";
-            this.ctx.font = "16px Anton";
-            this.ctx.fillStyle = "red";
-            this.ctx.fillText('Winer', 140, 80)
+            // this.ctxtextAlign = "center";
+            // this.ctx.font = "16px Anton";
+            // this.ctx.fillStyle = "red";
+            // this.ctx.fillText('Winer', 140, 80)
         }
     }
 

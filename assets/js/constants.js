@@ -37,7 +37,7 @@ let yIsometric = 0;
 let offsetX = 0;
 let offsetY = 0
 
-let ambientVol = 0.4;
+let ambientVol = 0.1;
 let fightVol = ambientVol;
 
 const delta = 1 / 60;
@@ -64,13 +64,13 @@ let heroAttributes = {
   level: 1,
   healthTotal: 120,
   healthPercentage: 0,
-  health: 100,
+  health: 120,
   healthTime: 5,
-  manaTotal: 100,
+  manaTotal: 60,
   manaPercentage: 0,
-  mana: 50,
+  mana: 60,
   manaTime: 5,
-  strength: 50,
+  strength: 60,
   dexterrity: 123,
   intelligent: 111,
   armor: 100,
@@ -99,7 +99,7 @@ let missions = {
   mision1: {
     finish: false,
     target: 'By killing enough demonic creatures, you will attract the attention of more powerful demons.',
-    totalDeadCreatures: 30,
+    totalDeadCreatures: 40,
     deadCreatures: 0
   },
   mision2: {
@@ -113,20 +113,20 @@ let missions = {
     finish: false,
     target: 'If you want to go down to hell, you will have to find the entrance.',
     key1: false,
-    totalDoors: 7,
+    totalDoors: 12,
     Doors: 0
   },
   mision4: {
     finish: false,
     target: 'You already know how to attract the attention of more powerful demons.',
-    totalDeadCreatures: 40,
+    totalDeadCreatures: 60,
     deadCreatures: 0
   },
   mision5: {
     finish: false,
     target: 'The keys possessed by the strongest demons will take you deeper.',
     key2: false,
-    totalDeadCreatures: 5,
+    totalDeadCreatures: 2,
     deadCreatures: 0
   },
   mision6: {
@@ -151,7 +151,7 @@ let missions = {
     finish: false,
     target: 'Do you think you can get hell? Run !!!',
     downAgain: false,
-    totalDoors: 10,
+    totalDoors: 12,
     Doors: 0
   }
 }

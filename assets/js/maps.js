@@ -468,7 +468,7 @@ function baseMap(cols, rows) {
         if (ranA === 1) {
             mapRandon.layers[0][randO] = 31;
         }
-        // mapRandon.layers[0][(2 * cols) + 5] = 31; // Sotano ###################
+         mapRandon.layers[0][(2 * cols) + 5] = 31; // Sotano ###################
     }
 }
 
