@@ -62,9 +62,9 @@ let enemyUpdate = [
 
 let heroAttributes = {
   level: 1,
-  healthTotal: 100000,
+  healthTotal: 120,
   healthPercentage: 0,
-  health: 100000,
+  health: 100,
   healthTime: 5,
   manaTotal: 100,
   manaPercentage: 0,
