@@ -623,11 +623,11 @@ class Game {
         if (heroAttributes.xp >= cameraWidth) { // actualiza xp
             heroAttributes.xp = 0
             heroAttributes.level++
-            heroAttributes.healthTotal += 50;
+            heroAttributes.healthTotal += 100;
             heroAttributes.health = heroAttributes.healthTotal;
-            heroAttributes.manaTotal += 5;
+            heroAttributes.manaTotal += 10;
             heroAttributes.mana = heroAttributes.manaTotal;
-            heroAttributes.strength += 10;
+            heroAttributes.strength += 20;
             xpP += xpP;
         }
     }

@@ -17,7 +17,7 @@ const mapTsize = 64;
 const mpTsizeWidth = 64;
 const mpTsizeHeight = 64;
 
-let totalColsMap = 320;
+let totalColsMap = 128;
 // let colsMap = 13;
 // let rowsMap = 13;
 
@@ -99,7 +99,7 @@ let missions = {
   mision1: {
     finish: false,
     target: 'By killing enough demonic creatures, you will attract the attention of more powerful demons.',
-    totalDeadCreatures: 20,
+    totalDeadCreatures: 6,
     deadCreatures: 0
   },
   mision2: {
@@ -119,7 +119,7 @@ let missions = {
   mision4: {
     finish: false,
     target: 'You already know how to attract the attention of more powerful demons.',
-    totalDeadCreatures: 40,
+    totalDeadCreatures: 6,
     deadCreatures: 0
   },
   mision5: {
