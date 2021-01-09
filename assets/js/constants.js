@@ -17,7 +17,7 @@ const mapTsize = 64;
 const mpTsizeWidth = 64;
 const mpTsizeHeight = 64;
 
-let totalColsMap = 128;
+let totalColsMap = 320;
 // let colsMap = 13;
 // let rowsMap = 13;
 
@@ -64,13 +64,13 @@ let heroAttributes = {
   level: 1,
   healthTotal: 120,
   healthPercentage: 0,
-  health: 100000,
+  health: 100,
   healthTime: 5,
-  manaTotal: 100000,
+  manaTotal: 100,
   manaPercentage: 0,
   mana: 50,
   manaTime: 5,
-  strength: 100,
+  strength: 50,
   dexterrity: 123,
   intelligent: 111,
   armor: 100,
@@ -99,34 +99,34 @@ let missions = {
   mision1: {
     finish: false,
     target: 'By killing enough demonic creatures, you will attract the attention of more powerful demons.',
-    totalDeadCreatures: 6,
+    totalDeadCreatures: 30,
     deadCreatures: 0
   },
   mision2: {
     finish: false,
     target: 'If you manage to steal a key from a creature from the underworld, you will be closer to hell.',
     key1: false,
-    totalDeadCreatures: 2,
+    totalDeadCreatures: 3,
     deadCreatures: 0
   },
   mision3: {
     finish: false,
     target: 'If you want to go down to hell, you will have to find the entrance.',
     key1: false,
-    totalDoors: 4,
+    totalDoors: 7,
     Doors: 0
   },
   mision4: {
     finish: false,
     target: 'You already know how to attract the attention of more powerful demons.',
-    totalDeadCreatures: 6,
+    totalDeadCreatures: 40,
     deadCreatures: 0
   },
   mision5: {
     finish: false,
     target: 'The keys possessed by the strongest demons will take you deeper.',
     key2: false,
-    totalDeadCreatures: 2,
+    totalDeadCreatures: 5,
     deadCreatures: 0
   },
   mision6: {
