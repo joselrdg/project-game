@@ -45,6 +45,7 @@ In the game you will have to overcome a series of missions in which you will hav
 ### Built With 🛠️
 
 * [Vanilla JavaScrips](https://developer.mozilla.org/en-US/docs/Web/JavaScript/)
+* [HTML5](https://developer.mozilla.org/en-US/docs/Web/HTML/)
 
 
 <!-- ROADMAP -->
