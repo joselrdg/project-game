@@ -1,4 +1,4 @@
-# project-game
+# Go to hell with... Canvas!!!
 
 <!-- PROJECT LOGO -->
 
@@ -11,7 +11,7 @@
   <!-- <h3 align="center">Infect Me</h3> -->
 
   <p align="center">
-    Go to hell with... Canvas!!!.
+    Project-game 
     <br />
     <a href="https://github.com/joselrdg/project-game"><strong>Explore the docs »</strong></a>
     <br />
@@ -29,7 +29,7 @@
 
 
 <!-- ABOUT THE PROJECT -->
-## About The Project
+## About
 
 Go to hell with canvas, it is a version of the famous game Diablo, made entirely in pure JavaScript and html.
 In the game you will have to overcome a series of missions in which you will have to find the keys to hell and to go down to the underworld to kill Mephisto and other Diablo II characters.
@@ -44,7 +44,7 @@ In the game you will have to overcome a series of missions in which you will hav
 
 ### Built With 🛠️
 
-* [JavaScrips Vanilla](http://expressjs.com/)
+* [Vanilla JavaScrips](https://developer.mozilla.org/en-US/docs/Web/JavaScript/)
 
 
 <!-- ROADMAP -->
