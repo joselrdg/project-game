@@ -62,13 +62,13 @@ let enemyUpdate = [
 
 let heroAttributes = {
   level: 1,
-  healthTotal: 120,
+  healthTotal: 400,
   healthPercentage: 0,
-  health: 120,
+  health: 400,
   healthTime: 5,
-  manaTotal: 60,
+  manaTotal: 100,
   manaPercentage: 0,
-  mana: 60,
+  mana: 100,
   manaTime: 5,
   strength: 60,
   dexterrity: 123,
@@ -99,7 +99,7 @@ let missions = {
   mision1: {
     finish: false,
     target: 'By killing enough demonic creatures, you will attract the attention of more powerful demons.',
-    totalDeadCreatures: 40,
+    totalDeadCreatures: 12,
     deadCreatures: 0
   },
   mision2: {
@@ -113,13 +113,13 @@ let missions = {
     finish: false,
     target: 'If you want to go down to hell, you will have to find the entrance.',
     key1: false,
-    totalDoors: 12,
+    totalDoors: 4,
     Doors: 0
   },
   mision4: {
     finish: false,
     target: 'You already know how to attract the attention of more powerful demons.',
-    totalDeadCreatures: 60,
+    totalDeadCreatures: 16,
     deadCreatures: 0
   },
   mision5: {
