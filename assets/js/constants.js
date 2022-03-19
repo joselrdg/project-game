@@ -64,7 +64,7 @@ let heroAttributes = {
   level: 1,
   healthTotal: 2800,
   healthPercentage: 0,
-  health: 800,
+  health: 2800,
   healthTime: 5,
   manaTotal: 100,
   manaPercentage: 0,
