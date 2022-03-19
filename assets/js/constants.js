@@ -17,7 +17,7 @@ const mapTsize = 64;
 const mpTsizeWidth = 64;
 const mpTsizeHeight = 64;
 
-let totalColsMap = 320;
+let totalColsMap = 120;
 // let colsMap = 13;
 // let rowsMap = 13;
 
@@ -89,8 +89,8 @@ let heroAttributes = {
     drrTarget: 0
   },
   items: {
-    manaJar: 0,
-    healthJar: 0,
+    manaJar: 5,
+    healthJar: 5,
   }
 
 }
