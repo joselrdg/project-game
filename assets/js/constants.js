@@ -89,8 +89,8 @@ let heroAttributes = {
     drrTarget: 0
   },
   items: {
-    manaJar: 5,
-    healthJar: 5,
+    manaJar: 20,
+    healthJar: 20,
   }
 
 }
