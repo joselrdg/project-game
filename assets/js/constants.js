@@ -81,7 +81,7 @@ let heroAttributes = {
     shoot: false,
     restmana: 10,
     speed: 4,
-    damage: 600,
+    damage: 200,
     sxWeapon: 0,
     xOrigin: 0,
     yOrigin: 0,
